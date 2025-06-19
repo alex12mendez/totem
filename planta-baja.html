@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planta Baja - H. Ayuntamiento de Atizapán de Zaragoza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="planta-baja.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header con logo, navegación de pisos y botón de regreso -->
+        <header class="header">
+            <img src="imagenes/1_MARCA_2025 (1).png" alt="Logo H. Ayuntamiento de Atizapán de Zaragoza" class="logo">
+            
+            <div class="header-right">
+                <!-- Navegación entre pisos -->
+                <div class="floor-navigation">
+                    <a href="sotano.html" class="floor-btn">🔽 Sótano</a>
+                    <span class="floor-btn active">📍 Planta Baja</span>
+                    <a href="primer-piso.html" class="floor-btn">🔼 1er Piso</a>
+                </div>
+                
+                <button class="back-button" onclick="goBack()">← Regresar</button>
+            </div>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1 class="floor-title">PLANTA BAJA</h1>
+            <p class="floor-description">
+                Nivel principal del H. Ayuntamiento donde se encuentran los servicios más importantes para la ciudadanía. 
+                Haz clic en cualquier área para obtener información detallada.
+            </p>
+
+            <!-- Contenedor del mapa -->
+            <div class="map-container">
+                <div class="map-controls">
+                    <button class="control-btn" onclick="zoomIn()" title="Acercar">+</button>
+                    <button class="control-btn" onclick="zoomOut()" title="Alejar">-</button>
+                    <button class="control-btn" onclick="resetZoom()" title="Restablecer">⌂</button>
+                </div>
+
+                <svg class="floor-map" id="floorMap" width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Gradientes institucionales -->
+                        <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4d4383"/>
+                            <stop offset="100%" style="stop-color:#6767a5"/>
+                        </linearGradient>
+                        <linearGradient id="secondaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#56858d"/>
+                            <stop offset="100%" style="stop-color:#79b0cc"/>
+                        </linearGradient>
+                        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#b64f80"/>
+                            <stop offset="100%" style="stop-color:#d66fa0"/>
+                        </linearGradient>
+                        
+                        <!-- Filtros y efectos -->
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge> 
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        
+                        <filter id="shadow">
+                            <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+                        </filter>
+                    </defs>
+                    
+                    <!-- Background -->
+                    <rect x="0" y="0" width="900" height="600" fill="#f8f9fa"/>
+                    
+                    <!-- Main building outline with gradient and shadow -->
+                    <rect x="30" y="30" width="840" height="540" fill="url(#primaryGradient)" opacity="0.1" stroke="#585958" stroke-width="3" filter="url(#shadow)"/>
+                    
+                    <!-- Top row offices -->
+                    <!-- CATASTRO Y EGRESOS -->
+                    <rect id="office-pb001" x="50" y="50" width="170" height="120" fill="url(#primaryGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb001')"/>
+                    <text x="135" y="100" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">CATASTRO Y</text>
+                    <text x="135" y="120" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">EGRESOS</text>
+                    
+                    <!-- DEFENSORIA MUNICIPAL DE DERECHOS HUMANOS -->
+                    <rect id="office-pb002" x="240" y="50" width="170" height="120" fill="url(#secondaryGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb002')"/>
+                    <text x="325" y="85" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">DEFENSORIA</text>
+                    <text x="325" y="105" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">MUNICIPAL DE</text>
+                    <text x="325" y="125" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">DERECHOS</text>
+                    <text x="325" y="145" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">HUMANOS</text>
+                    
+                    <!-- CAJEROS -->
+                    <rect id="office-pb003" x="430" y="50" width="140" height="120" fill="url(#accentGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb003')"/>
+                    <text x="500" y="115" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="white">CAJEROS</text>
+                    
+                    <!-- Dirección general de obras públicas -->
+                    <rect id="office-pb004" x="590" y="50" width="260" height="120" fill="url(#primaryGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb004')"/>
+                    <text x="720" y="95" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">Dirección general</text>
+                    <text x="720" y="120" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">de obras públicas</text>
+                    
+                    <!-- Second row -->
+                    <!-- CAJAS -->
+                    <rect id="office-pb005" x="50" y="190" width="80" height="280" fill="url(#accentGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb005')"/>
+                    <text x="90" y="320" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white" transform="rotate(-90 90 320)">CAJAS</text>
+                    
+                    <!-- TESORERIA MUNICIPAL -->
+                    <rect id="office-pb006" x="150" y="190" width="100" height="280" fill="url(#primaryGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb006')"/>
+                    <text x="200" y="320" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white" transform="rotate(-90 200 320)">TESORERIA MUNICIPAL</text>
+                    
+                    <!-- Central patio area -->
+                    <rect x="270" y="190" width="300" height="190" fill="#e9ecef" stroke="#585958" stroke-width="2"/>
+                    <text x="420" y="275" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#585958">PATIO</text>
+                    <text x="420" y="300" text-anchor="middle" font-family="Arial" font-size="16" fill="#6c757d">(Vacío)</text>
+                    
+                    <!-- Stairs -->
+                    <rect x="530" y="400" width="40" height="70" fill="#79b0cc" stroke="#585958" stroke-width="2"/>
+                    <!-- Stair lines -->
+                    <g stroke="#585958" stroke-width="1">
+                        <line x1="535" y1="405" x2="565" y2="405"/>
+                        <line x1="535" y1="415" x2="565" y2="415"/>
+                        <line x1="535" y1="425" x2="565" y2="425"/>
+                        <line x1="535" y1="435" x2="565" y2="435"/>
+                        <line x1="535" y1="445" x2="565" y2="445"/>
+                        <line x1="535" y1="455" x2="565" y2="455"/>
+                        <line x1="535" y1="465" x2="565" y2="465"/>
+                    </g>
+                    <text x="550" y="485" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#585958">escaleras</text>
+                    
+                    <!-- Dirección general de ordenamiento territorial y desarrollo urbano -->
+                    <rect id="office-pb007" x="630" y="190" width="220" height="190" fill="url(#secondaryGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb007')"/>
+                    <text x="740" y="255" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">Dirección general</text>
+                    <text x="740" y="275" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">de ordenamiento</text>
+                    <text x="740" y="295" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">territorial y desarr-</text>
+                    <text x="740" y="315" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">llo urbano</text>
+                    
+                    <!-- Bottom row -->
+                    <!-- DIRECCION DE TESORERIA MUNICIPAL -->
+                    <rect id="office-pb008" x="50" y="490" width="270" height="80" fill="url(#primaryGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb008')"/>
+                    <text x="185" y="520" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">DIRECCION DE TESORERIA</text>
+                    <text x="185" y="545" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">MUNICIPAL</text>
+                    
+                    <!-- INFORMATICA -->
+                    <rect id="office-pb009" x="340" y="490" width="180" height="80" fill="url(#accentGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb009')"/>
+                    <text x="430" y="535" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="white">INFORMATICA</text>
+                    
+                    <!-- KIOSCO INTERACTIVO -->
+                    <g id="kiosco" class="kiosco-interactive" onclick="showKioscoMenu()" style="cursor: pointer;">
+                        <rect x="540" y="490" width="80" height="80" fill="url(#primaryGradient)" stroke="#b64f80" stroke-width="3" filter="url(#glow)" rx="12"/>
+                        <circle cx="580" cy="515" r="12" fill="#b64f80" opacity="0.9"/>
+                        <text x="580" y="520" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">🗺️</text>
+                        <text x="580" y="545" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">KIOSCO</text>
+                        <text x="580" y="560" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">NAVEGACIÓN</text>
+                        <!-- Animación de pulso para destacar -->
+                        <circle cx="580" cy="530" r="20" fill="none" stroke="#b64f80" stroke-width="2" opacity="0.6">
+                            <animate attributeName="r" values="20;35;20" dur="2s" repeatCount="indefinite"/>
+                            <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                    </g>
+                    
+                    <!-- ATENCION CIUDADANA -->
+                    <rect id="office-pb010" x="640" y="400" width="210" height="170" fill="url(#secondaryGradient)" stroke="#585958" stroke-width="2" filter="url(#glow)" rx="8" class="office-room" onclick="showOfficeInfo('pb010')"/>
+                    <text x="745" y="475" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">ATENCION</text>
+                    <text x="745" y="500" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="white">CIUDADANA</text>
+                </svg>
+            </div>
+        </main>
+    </div>
+
+    <!-- Overlay para modal -->
+    <div class="overlay" id="overlay" onclick="closeInfoPanel()"></div>
+
+    <!-- Panel de información -->
+    <div class="info-panel" id="infoPanel">
+        <button class="close-panel" onclick="closeInfoPanel()">×</button>
+        <h3 id="officeTitle">Oficina</h3>
+        <p id="officeDescription">Descripción de la oficina</p>
+        <p><strong>Horarios:</strong> <span id="officeHours">Lunes a Viernes 9:00 - 17:00</span></p>
+        <p><strong>Servicios:</strong> <span id="officeServices">Información general</span></p>
+    </div>
+
+    <!-- Modal del Kiosco de Navegación -->
+    <div class="kiosco-modal" id="kioscoModal">
+        <div class="kiosco-content">
+            <button class="close-kiosco" onclick="closeKioscoMenu()">×</button>
+            <h2>🗺️ Sistema de Navegación</h2>
+            <p>Selecciona tu destino y te mostraremos el camino:</p>
+            
+            <div class="floor-sections">
+                <!-- Sótano -->
+                <div class="floor-section">
+                    <h3 onclick="toggleFloorSection('sotano')" class="floor-toggle">
+                        🔽 Sótano <span class="toggle-arrow" id="sotano-arrow">▼</span>
+                    </h3>
+                    <div class="floor-offices" id="sotano-offices">
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's001')">Patrimonio Municipal</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's002')">Ingresos y Ejecución Fiscal</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's003')">UIPPE</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's004')">Gobierno</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's005')">Desarrollo Social</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's006')">Administración</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's007')">Desarrollo Económico</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's008')">Servicios Públicos</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's009')">Panteones</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's010')">Dirección de Educación</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's011')">Ejecución Fiscal</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's012')">Almacén</button>
+                        <button class="destination-btn" onclick="navigateTo('sotano', 's013')">Normatividad y Verificación</button>
+                    </div>
+                </div>
+
+                <!-- Planta Baja -->
+                <div class="floor-section">
+                    <h3 onclick="toggleFloorSection('planta-baja')" class="floor-toggle">
+                        📍 Planta Baja <span class="toggle-arrow" id="planta-baja-arrow">▼</span>
+                    </h3>
+                    <div class="floor-offices" id="planta-baja-offices">
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb001')">Catastro y Egresos</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb002')">Defensoría de Derechos Humanos</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb003')">Cajeros Automáticos</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb004')">Dirección de Obras Públicas</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb005')">Cajas</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb006')">Tesorería Municipal</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb007')">Ordenamiento Territorial</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb008')">Dirección de Tesorería</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb009')">Informática</button>
+                        <button class="destination-btn" onclick="navigateTo('planta-baja', 'pb010')">Atención Ciudadana</button>
+                    </div>
+                </div>
+
+                <!-- Primer Piso -->
+                <div class="floor-section">
+                    <h3 onclick="toggleFloorSection('primer-piso')" class="floor-toggle">
+                        🔼 Primer Piso <span class="toggle-arrow" id="primer-piso-arrow">▼</span>
+                    </h3>
+                    <div class="floor-offices" id="primer-piso-offices">
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp001')">Dirección Jurídica y Consultiva</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp002')">Contraloría Municipal</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp003')">Innovación y Comunicación</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp004')">Sindicaturas</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp005')">Secretaría del H. Ayuntamiento</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp006')">Sala de Cabildo</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp007')">Unidad de Transparencia</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp008')">Mejora Regulatoria</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp009')">Presidencia Municipal</button>
+                        <button class="destination-btn" onclick="navigateTo('primer-piso', 'pp010')">Regidurías</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nueva notificación para cambio de piso -->
+    <div class="floor-change-notification" id="floorChangeNotification">
+        <button class="close-notification" onclick="closeFloorNotification()">×</button>
+        <h3 id="notificationIcon">🎯</h3>
+        <p id="notificationMessage">Mensaje de navegación</p>
+        <div class="notification-buttons">
+            <button class="notification-btn primary" id="gotoFloorBtn">Ir al Mapa</button>
+            <button class="notification-btn" onclick="closeFloorNotification()">Quedarme Aquí</button>
+        </div>
+    </div>
+
+    <script>
+        // Datos de las oficinas de Planta Baja
+        const officesData = {
+            'pb001': {
+                title: 'Catastro y Egresos',
+                description: 'Departamento encargado del registro catastral de propiedades y la gestión de egresos municipales. Aquí puedes realizar trámites relacionados con el valor catastral de tu propiedad.',
+                hours: 'Lunes a Viernes 9:00 - 15:00',
+                services: 'Certificados catastrales, Avalúos, Egresos municipales'
+            },
+            'pb002': {
+                title: 'Defensoría Municipal de Derechos Humanos',
+                description: 'Organismo encargado de la protección, defensa y promoción de los derechos humanos en el ámbito municipal. Atiende quejas y orienta a la ciudadanía.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Quejas por violación de derechos, Orientación legal, Mediación'
+            },
+            'pb003': {
+                title: 'Cajeros Automáticos',
+                description: 'Área de cajeros automáticos para facilitar el pago de servicios municipales y trámites las 24 horas del día.',
+                hours: '24 horas',
+                services: 'Pago de predial, Pago de multas, Consulta de adeudos'
+            },
+            'pb004': {
+                title: 'Dirección General de Obras Públicas',
+                description: 'Departamento responsable de la planeación, construcción y mantenimiento de la infraestructura pública municipal.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Permisos de construcción, Supervisión de obras, Infraestructura municipal'
+            },
+            'pb005': {
+                title: 'Cajas',
+                description: 'Área de cajas para el pago de servicios municipales, impuestos y trámites administrativos. Atención directa al contribuyente.',
+                hours: 'Lunes a Viernes 9:00 - 15:00',
+                services: 'Pago de predial, Pago de licencias, Recepción de pagos municipales'
+            },
+            'pb006': {
+                title: 'Tesorería Municipal',
+                description: 'Departamento encargado de la administración financiera del municipio, recaudación de ingresos y manejo del erario público.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Gestión financiera, Recaudación, Administración fiscal'
+            },
+            'pb007': {
+                title: 'Dirección de Ordenamiento Territorial y Desarrollo Urbano',
+                description: 'Área responsable de la planeación urbana, uso de suelo y ordenamiento territorial del municipio.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Licencias de uso de suelo, Planeación urbana, Desarrollo territorial'
+            },
+            'pb008': {
+                title: 'Dirección de Tesorería Municipal',
+                description: 'Oficina principal de la tesorería municipal, encargada de la coordinación y supervisión de las finanzas municipales.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Coordinación financiera, Supervisión fiscal, Políticas financieras'
+            },
+            'pb009': {
+                title: 'Informática',
+                description: 'Departamento de tecnologías de la información, encargado del soporte técnico y sistemas informáticos del ayuntamiento.',
+                hours: 'Lunes a Viernes 8:00 - 18:00',
+                services: 'Soporte técnico, Sistemas informáticos, Desarrollo de software'
+            },
+            'pb010': {
+                title: 'Atención Ciudadana',
+                description: 'Principal punto de contacto con la ciudadanía. Información, orientación y canalización de servicios municipales.',
+                hours: 'Lunes a Viernes 8:00 - 18:00',
+                services: 'Información general, Orientación, Quejas y sugerencias'
+            }
+        };
+
+        let currentZoom = 1;
+        const maxZoom = 2;
+        const minZoom = 0.5;
+
+        // Función para mostrar información de oficina
+        function showOfficeInfo(officeId) {
+            const office = officesData[officeId];
+            if (!office) return;
+
+            document.getElementById('officeTitle').textContent = office.title;
+            document.getElementById('officeDescription').textContent = office.description;
+            document.getElementById('officeHours').textContent = office.hours;
+            document.getElementById('officeServices').textContent = office.services;
+
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('infoPanel').classList.add('active');
+
+            // Feedback háptico en dispositivos compatibles
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        function closeInfoPanel() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('infoPanel').classList.remove('active');
+        }
+
+        // Funciones del Kiosco de Navegación
+        function showKioscoMenu() {
+            document.getElementById('kioscoModal').classList.add('active');
+            
+            // Feedback háptico especial para kiosco
+            if (navigator.vibrate) {
+                navigator.vibrate([100, 50, 100]);
+            }
+            
+            console.log('🗺️ Kiosco de navegación activado');
+        }
+
+        function closeKioscoMenu() {
+            document.getElementById('kioscoModal').classList.remove('active');
+            clearAllRoutes();
+        }
+
+        function toggleFloorSection(floorId) {
+            const offices = document.getElementById(floorId + '-offices');
+            const arrow = document.getElementById(floorId + '-arrow');
+            
+            if (offices.classList.contains('expanded')) {
+                offices.classList.remove('expanded');
+                arrow.classList.remove('rotated');
+            } else {
+                // Cerrar otras secciones
+                document.querySelectorAll('.floor-offices').forEach(section => {
+                    section.classList.remove('expanded');
+                });
+                document.querySelectorAll('.toggle-arrow').forEach(arr => {
+                    arr.classList.remove('rotated');
+                });
+                
+                // Abrir la sección seleccionada
+                offices.classList.add('expanded');
+                arrow.classList.add('rotated');
+            }
+        }
+
+        // Función mejorada para navegación con notificación de cambio de piso
+        function navigateTo(floor, officeId) {
+            console.log(`🎯 Navegando a: ${floor} - ${officeId}`);
+            
+            // Cerrar el modal del kiosco
+            closeKioscoMenu();
+            
+            if (floor === 'planta-baja') {
+                // Si es en el mismo piso, mostrar la ruta normalmente
+                showRoute(floor, officeId);
+            } else {
+                // Si es otro piso, mostrar notificación especial
+                showFloorChangeNotification(floor, officeId);
+            }
+            
+            // Feedback háptico de confirmación
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 100, 50, 100, 50]);
+            }
+        }
+
+        // Nueva función para mostrar notificación de cambio de piso
+        function showFloorChangeNotification(floor, officeId) {
+            const notification = document.getElementById('floorChangeNotification');
+            const icon = document.getElementById('notificationIcon');
+            const message = document.getElementById('notificationMessage');
+            const gotoBtn = document.getElementById('gotoFloorBtn');
+            
+            const officeName = getOfficeName(floor, officeId);
+            const floorNames = {
+                'sotano': 'Sótano',
+                'primer-piso': 'Primer Piso',
+                'segundo-piso': 'Segundo Piso'
+            };
+            
+            const floorFiles = {
+                'sotano': 'sotano.html',
+                'primer-piso': 'primer-piso.html',
+                'segundo-piso': 'segundo-piso.html'
+            };
+
+            const floorEmojis = {
+                'sotano': '🔽',
+                'primer-piso': '🔼',
+                'segundo-piso': '⬆️'
+            };
+
+            // Configurar el contenido de la notificación
+            icon.textContent = `${floorEmojis[floor] || '🎯'} ${floorNames[floor] || floor}`;
+            message.innerHTML = `
+                Para llegar a <strong>${officeName}</strong>, necesitas dirigirte al <strong>${floorNames[floor] || floor}</strong>.<br><br>
+                📍 Dirígete a la sección del <strong>${floorNames[floor] || floor}</strong> y selecciona la oficina que buscas.<br><br>
+                <small>💡 <em>Tip: Usa las escaleras para cambiar de piso</em></small>
+            `;
+            
+            // Configurar el botón para ir al piso
+            gotoBtn.onclick = function() {
+                const fileName = floorFiles[floor];
+                if (fileName) {
+                    // Efecto de transición suave
+                    notification.style.opacity = '0';
+                    notification.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                    
+                    setTimeout(() => {
+                        window.location.href = fileName;
+                    }, 300);
+                } else {
+                    alert(`Lo sentimos, el mapa del ${floorNames[floor] || floor} no está disponible aún.`);
+                }
+            };
+            
+            // Mostrar la notificación con animación
+            notification.classList.add('active', 'bounce');
+            
+            // Quitar la clase bounce después de la animación
+            setTimeout(() => {
+                notification.classList.remove('bounce');
+            }, 600);
+
+            // Auto-cerrar después de 15 segundos
+            setTimeout(() => {
+                if (notification.classList.contains('active')) {
+                    closeFloorNotification();
+                }
+            }, 15000);
+
+            console.log(`📢 Notificación mostrada para ${floor} - ${officeName}`);
+        }
+
+        // Función para cerrar la notificación de cambio de piso
+        function closeFloorNotification() {
+            const notification = document.getElementById('floorChangeNotification');
+            notification.classList.remove('active');
+        }
+
+        function showRoute(floor, officeId) {
+            // Limpiar rutas anteriores
+            clearAllRoutes();
+            
+            if (floor === 'planta-baja') {
+                // Ruta en el mismo piso
+                drawLocalRoute(officeId);
+            } else if (floor === 'sotano') {
+                // Ruta al sótano
+                drawSotanoRoute(officeId);
+            } else {
+                // Ruta a otro piso (primer piso, segundo piso, etc.)
+                drawInterFloorRoute(floor, officeId);
+            }
+            
+            // Mostrar instrucciones
+            showRouteInstructions(floor, officeId);
+        }
+
+        // Función para rutas del sótano
+        function drawSotanoRoute(officeId) {
+            const svg = document.getElementById('floorMap');
+            const routeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            routeGroup.setAttribute('id', 'navigationRoute');
+            
+            // Punto de inicio (kiosco en planta baja)
+            const startMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            startMarker.setAttribute('cx', '580');
+            startMarker.setAttribute('cy', '530');
+            startMarker.setAttribute('r', '8');
+            startMarker.setAttribute('class', 'route-marker route-start');
+            routeGroup.appendChild(startMarker);
+            
+            // Ruta hasta las escaleras
+            const stairRoute = 'M 580 530 L 580 450 L 550 450 L 550 435';
+            const pathToStairs = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            pathToStairs.setAttribute('d', stairRoute);
+            pathToStairs.setAttribute('class', 'navigation-route');
+            routeGroup.appendChild(pathToStairs);
+            
+            // Marcador en las escaleras
+            const stairMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            stairMarker.setAttribute('cx', '550');
+            stairMarker.setAttribute('cy', '435');
+            stairMarker.setAttribute('r', '8');
+            stairMarker.setAttribute('class', 'route-marker');
+            routeGroup.appendChild(stairMarker);
+            
+            // Texto indicativo para bajar
+            const stairText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            stairText.setAttribute('x', '550');
+            stairText.setAttribute('y', '420');
+            stairText.setAttribute('text-anchor', 'middle');
+            stairText.setAttribute('font-size', '12');
+            stairText.setAttribute('font-weight', 'bold');
+            stairText.setAttribute('fill', '#79b0cc');
+            stairText.textContent = '↓ SÓTANO';
+            routeGroup.appendChild(stairText);
+            
+            // Simular la ruta en el sótano con coordenadas estimadas
+            const sotanoDestinations = getSotanoDestinations();
+            const destination = sotanoDestinations[officeId];
+            
+            if (destination) {
+                // Crear una representación visual de la ruta en el sótano
+                const sotanoRouteInfo = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                sotanoRouteInfo.setAttribute('x', '450');
+                sotanoRouteInfo.setAttribute('y', '450');
+                sotanoRouteInfo.setAttribute('text-anchor', 'middle');
+                sotanoRouteInfo.setAttribute('font-size', '10');
+                sotanoRouteInfo.setAttribute('font-weight', 'bold');
+                sotanoRouteInfo.setAttribute('fill', '#b64f80');
+                sotanoRouteInfo.textContent = `En sótano: ${destination.name}`;
+                routeGroup.appendChild(sotanoRouteInfo);
+            }
+            
+            svg.appendChild(routeGroup);
+        }
+
+        // Coordenadas de destinos en el sótano (basadas en el layout del sótano)
+        function getSotanoDestinations() {
+            return {
+                's001': { name: 'Patrimonio Municipal', section: 'Lado izquierdo' },
+                's002': { name: 'Ingresos y Ejecución Fiscal', section: 'Área central superior' },
+                's003': { name: 'UIPPE', section: 'Centro superior' },
+                's004': { name: 'Gobierno', section: 'Lado derecho superior' },
+                's005': { name: 'Desarrollo Social', section: 'Extremo derecho superior' },
+                's006': { name: 'Administración', section: 'Lado izquierdo central' },
+                's007': { name: 'Desarrollo Económico', section: 'Lado derecho central' },
+                's008': { name: 'Servicios Públicos', section: 'Parte inferior izquierda' },
+                's009': { name: 'Panteones', section: 'Centro inferior' },
+                's010': { name: 'Dirección de Educación', section: 'Extremo derecho inferior' },
+                's011': { name: 'Ejecución Fiscal', section: 'Lado derecho medio' },
+                's012': { name: 'Almacén', section: 'Parte inferior derecha' },
+                's013': { name: 'Normatividad y Verificación', section: 'Centro superior derecho' }
+            };
+        }
+
+        function drawLocalRoute(officeId) {
+            const svg = document.getElementById('floorMap');
+            const routeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            routeGroup.setAttribute('id', 'navigationRoute');
+            
+            // Punto de inicio (kiosco)
+            const startMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            startMarker.setAttribute('cx', '580');
+            startMarker.setAttribute('cy', '530');
+            startMarker.setAttribute('r', '8');
+            startMarker.setAttribute('class', 'route-marker route-start');
+            routeGroup.appendChild(startMarker);
+            
+            // Rutas específicas para cada oficina
+            const routes = getRouteCoordinates(officeId);
+            
+            routes.forEach(route => {
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', route);
+                path.setAttribute('class', 'navigation-route');
+                routeGroup.appendChild(path);
+            });
+            
+            // Punto de destino
+            const targetOffice = document.getElementById('office-' + officeId);
+            if (targetOffice) {
+                const rect = targetOffice.getBBox();
+                const endMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                endMarker.setAttribute('cx', rect.x + rect.width / 2);
+                endMarker.setAttribute('cy', rect.y + rect.height / 2);
+                endMarker.setAttribute('r', '8');
+                endMarker.setAttribute('class', 'route-marker route-end');
+                routeGroup.appendChild(endMarker);
+            }
+            
+            svg.appendChild(routeGroup);
+        }
+
+        function drawInterFloorRoute(floor, officeId) {
+            const svg = document.getElementById('floorMap');
+            const routeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            routeGroup.setAttribute('id', 'navigationRoute');
+            
+            // Punto de inicio (kiosco)
+            const startMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            startMarker.setAttribute('cx', '580');
+            startMarker.setAttribute('cy', '530');
+            startMarker.setAttribute('r', '8');
+            startMarker.setAttribute('class', 'route-marker route-start');
+            routeGroup.appendChild(startMarker);
+            
+            // Ruta hasta las escaleras
+            const stairRoute = 'M 580 530 L 580 450 L 550 450 L 550 435';
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', stairRoute);
+            path.setAttribute('class', 'navigation-route');
+            routeGroup.appendChild(path);
+            
+            // Marcador en las escaleras
+            const stairMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            stairMarker.setAttribute('cx', '550');
+            stairMarker.setAttribute('cy', '435');
+            stairMarker.setAttribute('r', '8');
+            stairMarker.setAttribute('class', 'route-marker');
+            routeGroup.appendChild(stairMarker);
+            
+            // Texto indicativo
+            const stairText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            stairText.setAttribute('x', '550');
+            stairText.setAttribute('y', '420');
+            stairText.setAttribute('text-anchor', 'middle');
+            stairText.setAttribute('font-size', '12');
+            stairText.setAttribute('font-weight', 'bold');
+            stairText.setAttribute('fill', '#79b0cc');
+            stairText.textContent = `→ ${floor.toUpperCase()}`;
+            routeGroup.appendChild(stairText);
+            
+            svg.appendChild(routeGroup);
+        }
+
+        function getRouteCoordinates(officeId) {
+            // Definir las coordenadas del patio (área prohibida)
+            const patioArea = {
+                x: 270,
+                y: 190,
+                width: 300,
+                height: 190
+            };
+            
+            // Punto de inicio (kiosco)
+            const start = { x: 580, y: 530 };
+            
+            // Puntos de destino para cada oficina
+            const destinations = {
+                'pb001': { x: 135, y: 110 }, // Catastro
+                'pb002': { x: 325, y: 110 }, // Defensoría
+                'pb003': { x: 500, y: 110 }, // Cajeros
+                'pb004': { x: 720, y: 110 }, // Obras Públicas
+                'pb005': { x: 90, y: 330 },  // Cajas
+                'pb006': { x: 200, y: 330 }, // Tesorería
+                'pb007': { x: 740, y: 285 }, // Ordenamiento
+                'pb008': { x: 185, y: 530 }, // Dirección Tesorería
+                'pb009': { x: 430, y: 530 }, // Informática
+                'pb010': { x: 745, y: 485 }  // Atención Ciudadana
+            };
+            
+            const destination = destinations[officeId];
+            if (!destination) return ['M 580 530 L 580 500'];
+            
+            // Generar ruta evitando el patio
+            return generateSafeRoute(start, destination, patioArea);
+        }
+
+        function generateSafeRoute(start, end, obstacle) {
+            // Si el destino está en la misma fila horizontal y no cruza el patio
+            if (Math.abs(start.y - end.y) < 20) {
+                // Verificar si la línea directa cruza el patio
+                if (!lineIntersectsRect(start, end, obstacle)) {
+                    return [`M ${start.x} ${start.y} L ${end.x} ${end.y}`];
+                }
+            }
+            
+            // Determinar qué lado del patio usar para rodear
+            const routePoints = calculateAvoidanceRoute(start, end, obstacle);
+            
+            // Convertir puntos a path SVG
+            let pathString = `M ${routePoints[0].x} ${routePoints[0].y}`;
+            for (let i = 1; i < routePoints.length; i++) {
+                pathString += ` L ${routePoints[i].x} ${routePoints[i].y}`;
+            }
+            
+            return [pathString];
+        }
+
+        function calculateAvoidanceRoute(start, end, obstacle) {
+            const points = [start];
+            
+            // Margen de seguridad alrededor del patio
+            const margin = 20;
+            const safeObstacle = {
+                x: obstacle.x - margin,
+                y: obstacle.y - margin,
+                width: obstacle.width + (margin * 2),
+                height: obstacle.height + (margin * 2)
+            };
+            
+            // Determinar la mejor estrategia de rodeo
+            if (end.y < obstacle.y) {
+                // Destino está arriba del patio - rodear por arriba
+                points.push({ x: start.x, y: safeObstacle.y });
+                points.push({ x: end.x, y: safeObstacle.y });
+            } else if (end.y > obstacle.y + obstacle.height) {
+                // Destino está abajo del patio - rodear por abajo
+                points.push({ x: start.x, y: safeObstacle.y + safeObstacle.height });
+                points.push({ x: end.x, y: safeObstacle.y + safeObstacle.height });
+            } else if (end.x < obstacle.x) {
+                // Destino está a la izquierda del patio - rodear por la izquierda
+                points.push({ x: start.x, y: safeObstacle.y + safeObstacle.height });
+                points.push({ x: safeObstacle.x, y: safeObstacle.y + safeObstacle.height });
+                points.push({ x: safeObstacle.x, y: end.y });
+            } else if (end.x > obstacle.x + obstacle.width) {
+                // Destino está a la derecha del patio - rodear por la derecha
+                if (start.x > safeObstacle.x + safeObstacle.width) {
+                    // Ya estamos a la derecha, ir directo
+                    points.push({ x: safeObstacle.x + safeObstacle.width, y: end.y });
+                } else {
+                    // Rodear por la derecha
+                    points.push({ x: start.x, y: safeObstacle.y + safeObstacle.height });
+                    points.push({ x: safeObstacle.x + safeObstacle.width, y: safeObstacle.y + safeObstacle.height });
+                    points.push({ x: safeObstacle.x + safeObstacle.width, y: end.y });
+                }
+            } else {
+                // El destino está dentro del área del patio (casos especiales)
+                // Usar la ruta más corta posible
+                if (Math.abs(start.x - end.x) < Math.abs(start.y - end.y)) {
+                    // Rodear horizontalmente
+                    if (end.x < start.x) {
+                        points.push({ x: safeObstacle.x, y: start.y });
+                        points.push({ x: safeObstacle.x, y: end.y });
+                    } else {
+                        points.push({ x: safeObstacle.x + safeObstacle.width, y: start.y });
+                        points.push({ x: safeObstacle.x + safeObstacle.width, y: end.y });
+                    }
+                } else {
+                    // Rodear verticalmente
+                    if (end.y < start.y) {
+                        points.push({ x: start.x, y: safeObstacle.y });
+                        points.push({ x: end.x, y: safeObstacle.y });
+                    } else {
+                        points.push({ x: start.x, y: safeObstacle.y + safeObstacle.height });
+                        points.push({ x: end.x, y: safeObstacle.y + safeObstacle.height });
+                    }
+                }
+            }
+            
+            points.push(end);
+            return points;
+        }
+
+        function lineIntersectsRect(point1, point2, rect) {
+            // Verificar si una línea intersecta con un rectángulo
+            const x1 = point1.x, y1 = point1.y;
+            const x2 = point2.x, y2 = point2.y;
+            const rx = rect.x, ry = rect.y;
+            const rw = rect.width, rh = rect.height;
+            
+            // Verificar intersección con cada lado del rectángulo
+            return (
+                lineIntersectsLine(x1, y1, x2, y2, rx, ry, rx + rw, ry) ||         // Top
+                lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry, rx + rw, ry + rh) || // Right
+                lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry + rh, rx, ry + rh) || // Bottom
+                lineIntersectsLine(x1, y1, x2, y2, rx, ry + rh, rx, ry) ||         // Left
+                (x1 >= rx && x1 <= rx + rw && y1 >= ry && y1 <= ry + rh) ||        // Point1 inside
+                (x2 >= rx && x2 <= rx + rw && y2 >= ry && y2 <= ry + rh)           // Point2 inside
+            );
+        }
+
+        function lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
+            const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+            if (denom === 0) return false; // Parallel lines
+            
+            const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
+            const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
+            
+            return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
+        }
+
+        function clearAllRoutes() {
+            const existingRoute = document.getElementById('navigationRoute');
+            if (existingRoute) {
+                existingRoute.remove();
+            }
+            
+            // Limpiar instrucciones
+            const instructions = document.getElementById('routeInstructions');
+            if (instructions) {
+                instructions.remove();
+            }
+        }
+
+        // Función mejorada para mostrar instrucciones con botón al sótano
+        function showRouteInstructions(floor, officeId) {
+            // Crear panel de instrucciones
+            const instructions = document.createElement('div');
+            instructions.id = 'routeInstructions';
+            
+            const officeName = getOfficeName(floor, officeId);
+            let instructionText = '';
+            
+            if (floor === 'planta-baja') {
+                instructionText = `
+                    <h4>🎯 ${officeName}</h4>
+                    <p>📍 Sigue la línea azul desde el kiosco</p>
+                    <p>⏱️ Tiempo estimado: 1-2 minutos</p>
+                `;
+            } else if (floor === 'sotano') {
+                const sotanoDestinations = getSotanoDestinations();
+                const destination = sotanoDestinations[officeId];
+                instructionText = `
+                    <h4>🎯 ${officeName}</h4>
+                    <p>📍 Sigue la línea azul hasta las escaleras</p>
+                    <p>🔽 Baja al sótano</p>
+                    ${destination ? `<p>📍 Busca: ${destination.section}</p>` : ''}
+                    <p>⏱️ Tiempo estimado: 3-5 minutos</p>
+                    <button onclick="window.open('sotano.html', '_blank')" class="goto-floor-btn">
+                        🗺️ Ver Mapa del Sótano
+                    </button>
+                `;
+            } else {
+                instructionText = `
+                    <h4>🎯 ${officeName}</h4>
+                    <p>📍 Sigue la línea azul hasta las escaleras</p>
+                    <p>🔼 Sube al ${floor}</p>
+                    <p>⏱️ Tiempo estimado: 3-5 minutos</p>
+                    <button onclick="window.open('${floor}.html', '_blank')" class="goto-floor-btn">
+                        🗺️ Ver Mapa del ${floor}
+                    </button>
+                `;
+            }
+            
+            instructions.innerHTML = instructionText + `
+                <button onclick="clearAllRoutes()">
+                    Limpiar Ruta
+                </button>
+            `;
+            
+            document.body.appendChild(instructions);
+        }
+
+        // Función para obtener nombres de oficinas
+        function getOfficeName(floor, officeId) {
+            const names = {
+                // Planta Baja
+                'pb001': 'Catastro y Egresos',
+                'pb002': 'Defensoría de Derechos Humanos',
+                'pb003': 'Cajeros Automáticos',
+                'pb004': 'Dirección de Obras Públicas',
+                'pb005': 'Cajas',
+                'pb006': 'Tesorería Municipal',
+                'pb007': 'Ordenamiento Territorial',
+                'pb008': 'Dirección de Tesorería',
+                'pb009': 'Informática',
+                'pb010': 'Atención Ciudadana',
+                
+                // Sótano
+                's001': 'Patrimonio Municipal',
+                's002': 'Ingresos y Ejecución Fiscal',
+                's003': 'UIPPE',
+                's004': 'Gobierno',
+                's005': 'Desarrollo Social',
+                's006': 'Administración',
+                's007': 'Desarrollo Económico',
+                's008': 'Servicios Públicos',
+                's009': 'Panteones',
+                's010': 'Dirección de Educación',
+                's011': 'Ejecución Fiscal',
+                's012': 'Almacén',
+                's013': 'Normatividad y Verificación',
+                
+                // Primer Piso
+                'pp001': 'Dirección Jurídica y Consultiva',
+                'pp002': 'Contraloría Municipal',
+                'pp003': 'Innovación y Comunicación',
+                'pp004': 'Sindicaturas',
+                'pp005': 'Secretaría del H. Ayuntamiento',
+                'pp006': 'Sala de Cabildo',
+                'pp007': 'Unidad de Transparencia',
+                'pp008': 'Mejora Regulatoria',
+                'pp009': 'Presidencia Municipal',
+                'pp010': 'Regidurías'
+            };
+            
+            return names[officeId] || 'Destino';
+        }
+
+        // Función para regresar a la página principal
+        function goBack() {
+            // Efecto de transición suave
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-out';
+            
+            setTimeout(() => {
+                window.location.href = 'inicio.html';
+            }, 500);
+        }
+
+        // Funciones de zoom
+        function zoomIn() {
+            if (currentZoom < maxZoom) {
+                currentZoom += 0.2;
+                applyZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoom > minZoom) {
+                currentZoom -= 0.2;
+                applyZoom();
+            }
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const svg = document.getElementById('floorMap');
+            svg.style.transform = `scale(${currentZoom})`;
+            svg.style.transformOrigin = 'center center';
+            
+            // Feedback háptico
+            if (navigator.vibrate) {
+                navigator.vibrate(5);
+            }
+        }
+
+        // Event listeners para navegación con teclado
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'Escape':
+                    closeInfoPanel();
+                    closeKioscoMenu();
+                    closeFloorNotification();
+                    clearAllRoutes();
+                    break;
+                case 'k':
+                case 'K':
+                    // Atajo de teclado para abrir kiosco
+                    event.preventDefault();
+                    showKioscoMenu();
+                    break;
+                case '+':
+                case '=':
+                    event.preventDefault();
+                    zoomIn();
+                    break;
+                case '-':
+                    event.preventDefault();
+                    zoomOut();
+                    break;
+                case '0':
+                    event.preventDefault();
+                    resetZoom();
+                    break;
+                case 'Backspace':
+                    event.preventDefault();
+                    goBack();
+                    break;
+            }
+        });
+
+        // Manejo de gestos táctiles para dispositivos móviles
+        let initialDistance = 0;
+        let lastZoom = currentZoom;
+
+        function getDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        document.getElementById('floorMap').addEventListener('touchstart', function(event) {
+            if (event.touches.length === 2) {
+                event.preventDefault();
+                initialDistance = getDistance(event.touches);
+                lastZoom = currentZoom;
+            }
+        });
+
+        document.getElementById('floorMap').addEventListener('touchmove', function(event) {
+            if (event.touches.length === 2) {
+                event.preventDefault();
+                const currentDistance = getDistance(event.touches);
+                const scale = currentDistance / initialDistance;
+                const newZoom = lastZoom * scale;
+                
+                if (newZoom >= minZoom && newZoom <= maxZoom) {
+                    currentZoom = newZoom;
+                    applyZoom();
+                }
+            }
+        });
+
+        // Efectos de hover mejorados para las oficinas
+        document.querySelectorAll('.office-room').forEach(office => {
+            office.addEventListener('mouseenter', function() {
+                this.style.cursor = 'pointer';
+                
+                // Crear efecto de brillo
+                this.style.filter = 'brightness(1.3) drop-shadow(0 0 15px rgba(255,255,255,0.9))';
+                
+                // Feedback háptico sutil
+                if (navigator.vibrate) {
+                    navigator.vibrate(5);
+                }
+            });
+
+            office.addEventListener('mouseleave', function() {
+                this.style.filter = 'url(#glow)';
+            });
+        });
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏛️ Mapa de Planta Baja - H. Ayuntamiento de Atizapán de Zaragoza');
+            console.log('🗺️ Sistema de Navegación con Kiosco Interactivo');
+            console.log('📱 Controles disponibles:');
+            console.log('  • Clic en oficinas para información');
+            console.log('  • Clic en KIOSCO para navegación');
+            console.log('  • Tecla K para abrir kiosco');
+            console.log('  • Botones +/- para zoom');
+            console.log('  • Teclas +/- para zoom con teclado');
+            console.log('  • Tecla ESC para cerrar paneles');
+            console.log('  • Tecla Backspace para regresar');
+            console.log('  • Pellizcar en móviles para zoom');
+
+            // Agregar animaciones de entrada escalonadas a las oficinas
+            const offices = document.querySelectorAll('.office-room');
+            offices.forEach((office, index) => {
+                office.style.opacity = '0';
+                office.style.transform = 'scale(0.8)';
+                office.style.transition = 'all 0.6s ease-out';
+                
+                setTimeout(() => {
+                    office.style.opacity = '1';
+                    office.style.transform = 'scale(1)';
+                }, 200 + (index * 100));
+            });
+
+            // Destacar el kiosco después de que carguen las oficinas
+            setTimeout(() => {
+                highlightKiosco();
+            }, 3000);
+
+            // Verificar rendimiento
+            if ('performance' in window) {
+                window.addEventListener('load', () => {
+                    const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                    console.log(`⚡ Tiempo de carga del mapa: ${loadTime}ms`);
+                    
+                    if (loadTime < 2000) {
+                        console.log('🚀 Rendimiento excelente para el sistema de navegación');
+                    }
+                });
+            }
+        });
+
+        // Función para destacar el kiosco cuando se carga la página
+        function highlightKiosco() {
+            const kiosco = document.getElementById('kiosco');
+            if (kiosco) {
+                kiosco.style.animation = 'kioscoIntro 3s ease-in-out';
+                
+                // Mostrar tip sobre el kiosco
+                setTimeout(() => {
+                    const kioscoTip = document.createElement('div');
+                    kioscoTip.style.cssText = `
+                        position: fixed;
+                        bottom: 80px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: linear-gradient(135deg, rgba(182, 79, 128, 0.95), rgba(214, 111, 160, 0.95));
+                        color: white;
+                        padding: 1rem 2rem;
+                        border-radius: 25px;
+                        z-index: 1000;
+                        animation: bounceIn 0.6s ease-out;
+                        box-shadow: 0 10px 30px rgba(182, 79, 128, 0.3);
+                        text-align: center;
+                        font-weight: 600;
+                    `;
+                    kioscoTip.innerHTML = `
+                        🗺️ ¡Nuevo! Usa el <strong>KIOSCO DE NAVEGACIÓN</strong> para encontrar cualquier oficina<br>
+                        <small>Presiona K o haz clic en el kiosco</small>
+                        <button onclick="this.parentElement.remove()" style="
+                            background: rgba(255,255,255,0.2);
+                            border: none;
+                            color: white;
+                            padding: 0.3rem 0.8rem;
+                            border-radius: 15px;
+                            cursor: pointer;
+                            margin-left: 10px;
+                            font-size: 12px;
+                        ">×</button>
+                    `;
+                    
+                    document.body.appendChild(kioscoTip);
+                    
+                    // Auto-remover después de 8 segundos
+                    setTimeout(() => {
+                        if (kioscoTip.parentNode) {
+                            kioscoTip.style.animation = 'bounceOut 0.4s ease-in';
+                            setTimeout(() => {
+                                if (kioscoTip.parentNode) {
+                                    kioscoTip.remove();
+                                }
+                            }, 400);
+                        }
+                    }, 8000);
+                }, 2000);
+            }
+        }
+
+        // Agregar animaciones del kiosco
+        const kioscoAnimations = document.createElement('style');
+        kioscoAnimations.textContent = `
+            @keyframes kioscoIntro {
+                0% { 
+                    transform: scale(0) rotate(-180deg); 
+                    opacity: 0; 
+                }
+                50% { 
+                    transform: scale(1.2) rotate(-90deg); 
+                    opacity: 0.8; 
+                }
+                100% { 
+                    transform: scale(1) rotate(0deg); 
+                    opacity: 1; 
+                }
+            }
+            
+            @keyframes bounceIn {
+                0% { 
+                    transform: translateX(-50%) scale(0.3) translateY(50px); 
+                    opacity: 0; 
+                }
+                50% { 
+                    transform: translateX(-50%) scale(1.05) translateY(-10px); 
+                    opacity: 0.8; 
+                }
+                70% { 
+                    transform: translateX(-50%) scale(0.9) translateY(5px); 
+                    opacity: 1; 
+                }
+                100% { 
+                    transform: translateX(-50%) scale(1) translateY(0); 
+                    opacity: 1; 
+                }
+            }
+            
+            @keyframes bounceOut {
+                0% { 
+                    transform: translateX(-50%) scale(1) translateY(0); 
+                    opacity: 1; 
+                }
+                100% { 
+                    transform: translateX(-50%) scale(0.3) translateY(50px); 
+                    opacity: 0; 
+                }
+            }
+        `;
+        document.head.appendChild(kioscoAnimations);
+
+        // Manejo de orientación en dispositivos móviles
+        window.addEventListener('orientationchange', function() {
+            setTimeout(() => {
+                resetZoom();
+                console.log('📱 Orientación cambiada, zoom reiniciado');
+            }, 500);
+        });
+
+        // Optimizaciones de rendimiento
+        function optimizeForDevice() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // Reducir efectos en móviles para mejor rendimiento
+                document.querySelectorAll('.office-room').forEach(office => {
+                    office.style.transition = 'all 0.3s ease-out';
+                });
+                console.log('📱 Optimizaciones móviles aplicadas');
+            }
+        }
+
+        // Aplicar optimizaciones al cargar
+        optimizeForDevice();
+
+        // Feedback de accesibilidad
+        document.querySelectorAll('.office-room').forEach(office => {
+            office.setAttribute('tabindex', '0');
+            office.setAttribute('role', 'button');
+            office.setAttribute('aria-label', `Oficina - Presiona Enter para más información`);
+            
+            office.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const officeId = this.id.replace('office-', '');
+                    showOfficeInfo(officeId);
+                }
+            });
+        });
+
+        // Easter egg para el logo
+        document.querySelector('.logo').addEventListener('click', function() {
+            this.style.animation = 'none';
+            this.offsetHeight; // Trigger reflow
+            this.style.animation = 'logoSpin 1s ease-in-out';
+            
+            console.log('🎉 ¡Logo activado! Gracias por usar nuestro sistema de navegación');
+        });
+
+        // Agregar animación del logo
+        const logoStyle = document.createElement('style');
+        logoStyle.textContent = `
+            @keyframes logoSpin {
+                0% { transform: rotate(0deg) scale(1); }
+                50% { transform: rotate(180deg) scale(1.1); }
+                100% { transform: rotate(360deg) scale(1); }
+            }
+        `;
+        document.head.appendChild(logoStyle);
+
+        console.log('🎯 Sistema de navegación de Planta Baja completamente inicializado');
+    </script>
+</body>
+</html>

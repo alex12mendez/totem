@@ -1,0 +1,1150 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Importación de tipografías institucionales */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Simulación de tipografías Newake y Averta (reemplazar con archivos reales) */
+@font-face {
+    font-family: 'Newake';
+    src: url('fonts/newake-regular.woff2') format('woff2'),
+         url('fonts/newake-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Newake';
+    src: url('fonts/newake-bold.woff2') format('woff2'),
+         url('fonts/newake-bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averta';
+    src: url('fonts/averta-regular.woff2') format('woff2'),
+         url('fonts/averta-regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Averta';
+    src: url('fonts/averta-bold.woff2') format('woff2'),
+         url('fonts/averta-bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Variables CSS para paleta de colores institucional Atizapán */
+:root {
+    /* Colores principales */
+    --color-gris-principal: #585958;      /* Gris principal */
+    --color-rosa-institucional: #b64f80;  /* Rosa institucional */
+    --color-azul-claro: #79b0cc;         /* Azul claro */
+    --color-verde-azulado: #56858d;      /* Verde azulado */
+    --color-morado-claro: #6767a5;       /* Morado claro */
+    --color-morado-oscuro: #4d4383;      /* Morado oscuro */
+    
+    /* Colores derivados y variaciones */
+    --color-rosa-claro: rgba(182, 79, 128, 0.1);
+    --color-azul-claro-trans: rgba(121, 176, 204, 0.2);
+    --color-verde-trans: rgba(86, 133, 141, 0.15);
+    --color-morado-trans: rgba(77, 67, 131, 0.1);
+    
+    /* Tipografías */
+    --font-institucional-titles: 'Newake', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-institucional-body: 'Averta', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-fallback: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    /* Gradientes institucionales */
+    --gradient-principal: linear-gradient(135deg, var(--color-morado-oscuro) 0%, var(--color-morado-claro) 25%, var(--color-verde-azulado) 50%, var(--color-azul-claro) 75%, var(--color-rosa-institucional) 100%);
+    --gradient-header: linear-gradient(135deg, rgba(255,255,255,0.98) 0%, rgba(248,249,250,0.95) 100%);
+    --gradient-rosa: linear-gradient(135deg, var(--color-rosa-institucional) 0%, #d66fa0 100%);
+    --gradient-azul: linear-gradient(135deg, var(--color-verde-azulado) 0%, var(--color-azul-claro) 100%);
+    --gradient-morado: linear-gradient(135deg, var(--color-morado-oscuro) 0%, var(--color-morado-claro) 100%);
+    
+    /* Sombras institucionales */
+    --shadow-institucional: 0 8px 32px rgba(77, 67, 131, 0.15);
+    --shadow-hover: 0 12px 40px rgba(182, 79, 128, 0.2);
+    --shadow-active: 0 4px 20px rgba(86, 133, 141, 0.25);
+}
+
+body {
+    font-family: var(--font-institucional-body);
+    background: var(--gradient-principal);
+    min-height: 100vh;
+    color: #ffffff;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Header con identidad institucional */
+.header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    background: var(--gradient-header);
+    backdrop-filter: blur(20px);
+    padding: 0.8rem 0;
+    box-shadow: var(--shadow-institucional);
+    border-bottom: 2px solid var(--color-rosa-institucional);
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    max-width: 120px;
+    height: auto;
+    margin-left: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-right: 2rem;
+}
+
+.floor-navigation {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.floor-btn {
+    background: rgba(255,255,255,0.9);
+    color: var(--color-gris-principal);
+    border: 2px solid var(--color-azul-claro);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: var(--font-institucional-titles);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(121, 176, 204, 0.2);
+}
+
+.floor-btn:hover {
+    background: var(--gradient-azul);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--color-rosa-institucional);
+}
+
+.floor-btn.active {
+    background: var(--gradient-rosa);
+    color: white;
+    border-color: var(--color-rosa-institucional);
+    box-shadow: var(--shadow-active);
+}
+
+.back-button {
+    background: var(--gradient-rosa);
+    color: white;
+    border: 2px solid var(--color-rosa-institucional);
+    padding: 0.6rem 1.8rem;
+    border-radius: 25px;
+    font-weight: 700;
+    font-family: var(--font-institucional-titles);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-institucional);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.back-button:hover {
+    background: linear-gradient(135deg, #d66fa0 0%, var(--color-rosa-institucional) 100%);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 120px 2rem 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.floor-title {
+    font-family: var(--font-institucional-titles);
+    font-size: 3.2rem;
+    font-weight: 900;
+    background-color: #ffffff;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.floor-description {
+    font-family: var(--font-institucional-body);
+    font-size: 1.3rem;
+    color: rgba(255,255,255,0.95);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+/* Contenedor del mapa con identidad institucional */
+.map-container {
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(25px);
+    border-radius: 30px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-institucional);
+    border: 3px solid var(--color-rosa-institucional);
+    max-width: 95vw;
+    max-height: 85vh;
+    overflow: auto;
+    position: relative;
+}
+
+/* Estilos del SVG */
+.floor-map {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Estilos del Kiosco de Navegación con identidad */
+.kiosco-interactive {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.kiosco-interactive:hover {
+    transform: scale(1.08);
+    filter: brightness(1.3) drop-shadow(0 0 20px rgba(182, 79, 128, 0.8));
+}
+
+.kiosco-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(77, 67, 131, 0.85);
+    z-index: 300;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(15px);
+}
+
+.kiosco-modal.active {
+    display: flex;
+    animation: modalFadeIn 0.4s ease-out;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.kiosco-content {
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(30px);
+    border-radius: 30px;
+    padding: 2.5rem;
+    max-width: 650px;
+    max-height: 85vh;
+    width: 90vw;
+    overflow-y: auto;
+    box-shadow: var(--shadow-institucional);
+    border: 3px solid var(--color-rosa-institucional);
+    color: var(--color-gris-principal);
+    position: relative;
+    animation: contentSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes contentSlideIn {
+    from { 
+        transform: translateY(-50px) scale(0.9); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0) scale(1); 
+        opacity: 1; 
+    }
+}
+
+.close-kiosco {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: var(--gradient-rosa);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-active);
+}
+
+.close-kiosco:hover {
+    background: linear-gradient(135deg, #d66fa0, var(--color-rosa-institucional));
+    transform: rotate(90deg) scale(1.1);
+}
+
+.kiosco-content h2 {
+    font-family: var(--font-institucional-titles);
+    color: var(--color-morado-oscuro);
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.kiosco-content p {
+    font-family: var(--font-institucional-body);
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--color-gris-principal);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.floor-section {
+    margin-bottom: 2rem;
+    border: 3px solid var(--color-azul-claro);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(121, 176, 204, 0.2);
+}
+
+.floor-toggle {
+    background: var(--gradient-azul);
+    color: white;
+    padding: 1.2rem 1.5rem;
+    margin: 0;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    font-family: var(--font-institucional-titles);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+.floor-toggle:hover {
+    background: linear-gradient(135deg, var(--color-azul-claro), var(--color-verde-azulado));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.toggle-arrow {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.2rem;
+}
+
+.toggle-arrow.rotated {
+    transform: rotate(180deg);
+}
+
+.floor-offices {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255,255,255,0.98);
+}
+
+.floor-offices.expanded {
+    max-height: 500px;
+    padding: 1.5rem;
+}
+
+.destination-btn {
+    display: block;
+    width: 100%;
+    background: var(--color-morado-trans);
+    border: 2px solid var(--color-morado-claro);
+    color: var(--color-morado-oscuro);
+    padding: 1rem 1.5rem;
+    margin: 0.8rem 0;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    font-family: var(--font-institucional-body);
+    text-align: left;
+    font-size: 1rem;
+}
+
+.destination-btn:hover {
+    background: var(--gradient-morado);
+    color: white;
+    transform: translateX(8px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--color-rosa-institucional);
+}
+
+/* Estilos para rutas animadas con colores institucionales */
+.navigation-route {
+    stroke: var(--color-azul-claro);
+    stroke-width: 5;
+    fill: none;
+    stroke-dasharray: 12 6;
+    animation: routeAnimation 2.5s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(121, 176, 204, 0.7));
+}
+
+@keyframes routeAnimation {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 18; }
+}
+
+.route-marker {
+    fill: var(--color-azul-claro);
+    animation: markerPulse 2s ease-in-out infinite;
+}
+
+@keyframes markerPulse {
+    0%, 100% { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+    50% { 
+        opacity: 0.7; 
+        transform: scale(1.3); 
+    }
+}
+
+.route-start {
+    fill: var(--color-rosa-institucional);
+    filter: drop-shadow(0 0 6px rgba(182, 79, 128, 0.8));
+}
+
+.route-end {
+    fill: var(--color-verde-azulado);
+    filter: drop-shadow(0 0 6px rgba(86, 133, 141, 0.8));
+}
+
+/* Panel de información con identidad institucional */
+.info-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(30px);
+    border-radius: 25px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-institucional);
+    border: 3px solid var(--color-rosa-institucional);
+    z-index: 200;
+    max-width: 450px;
+    width: 90vw;
+    color: var(--color-gris-principal);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+}
+
+.info-panel.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.info-panel h3 {
+    font-family: var(--font-institucional-titles);
+    color: var(--color-morado-oscuro);
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.info-panel p {
+    font-family: var(--font-institucional-body);
+    color: var(--color-gris-principal);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+}
+
+.info-panel strong {
+    color: var(--color-rosa-institucional);
+    font-weight: 700;
+}
+
+.close-panel {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    background: var(--gradient-rosa);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-active);
+}
+
+.close-panel:hover {
+    background: linear-gradient(135deg, #d66fa0, var(--color-rosa-institucional));
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(77, 67, 131, 0.6);
+    z-index: 150;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(5px);
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Controles del mapa con identidad */
+.map-controls {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    display: flex;
+    gap: 0.8rem;
+    z-index: 10;
+}
+
+.control-btn {
+    background: var(--gradient-azul);
+    color: white;
+    border: 2px solid var(--color-azul-claro);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-institucional);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:hover {
+    background: var(--gradient-rosa);
+    border-color: var(--color-rosa-institucional);
+    transform: scale(1.15);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Animación para las instrucciones de ruta */
+@keyframes slideInRight {
+    0% { 
+        transform: translateX(100%); 
+        opacity: 0; 
+    }
+    100% { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+/* Panel de instrucciones de ruta con identidad */
+#routeInstructions {
+    position: fixed;
+    top: 140px;
+    right: 25px;
+    background: var(--gradient-azul);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 20px;
+    max-width: 320px;
+    z-index: 250;
+    box-shadow: var(--shadow-institucional);
+    backdrop-filter: blur(15px);
+    animation: slideInRight 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid var(--color-azul-claro);
+}
+
+#routeInstructions h4 {
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem;
+    font-weight: 900;
+    font-family: var(--font-institucional-titles);
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+#routeInstructions p {
+    margin: 0.5rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: var(--font-institucional-body);
+    font-weight: 500;
+}
+
+#routeInstructions button {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 0.8rem 1.2rem;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 0.5rem 0;
+    width: 100%;
+    font-weight: 700;
+    font-family: var(--font-institucional-titles);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#routeInstructions button:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+
+#routeInstructions .goto-floor-btn {
+    background: var(--gradient-rosa);
+    border: 2px solid var(--color-rosa-institucional);
+}
+
+#routeInstructions .goto-floor-btn:hover {
+    background: linear-gradient(135deg, #d66fa0, var(--color-rosa-institucional));
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Notificación de cambio de piso con identidad institucional */
+.floor-change-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg, rgba(182, 79, 128, 0.98), rgba(214, 111, 160, 0.95));
+    backdrop-filter: blur(30px);
+    border-radius: 30px;
+    padding: 3rem;
+    box-shadow: var(--shadow-institucional);
+    border: 3px solid var(--color-rosa-institucional);
+    z-index: 400;
+    max-width: 550px;
+    width: 90vw;
+    color: white;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    text-align: center;
+}
+
+.floor-change-notification.active {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.floor-change-notification h3 {
+    font-family: var(--font-institucional-titles);
+    color: white;
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.floor-change-notification p {
+    font-family: var(--font-institucional-body);
+    color: rgba(255,255,255,0.95);
+    font-size: 1.2rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-weight: 500;
+}
+
+.notification-buttons {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.notification-btn {
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--color-rosa-institucional);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    padding: 1rem 2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: var(--font-institucional-titles);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.notification-btn:hover {
+    background: rgba(255, 255, 255, 1);
+    color: var(--color-morado-oscuro);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.notification-btn.primary {
+    background: var(--color-morado-oscuro);
+    color: white;
+    border-color: var(--color-morado-oscuro);
+}
+
+.notification-btn.primary:hover {
+    background: var(--color-morado-claro);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(77, 67, 131, 0.4);
+}
+
+.close-notification {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid rgba(255,255,255,0.3);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.close-notification:hover {
+    background: rgba(255,255,255,0.3);
+    transform: rotate(90deg) scale(1.1);
+}
+
+/* Efectos de fondo animado con colores institucionales */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(103, 103, 165, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(182, 79, 128, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(121, 176, 204, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 60% 40%, rgba(86, 133, 141, 0.2) 0%, transparent 50%);
+    animation: backgroundMove 25s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes backgroundMove {
+    0%, 100% { 
+        opacity: 1; 
+        transform: translateX(0px) translateY(0px) rotate(0deg); 
+    }
+    25% { 
+        opacity: 0.8; 
+        transform: translateX(-30px) translateY(-15px) rotate(1deg); 
+    }
+    50% { 
+        opacity: 0.9; 
+        transform: translateX(20px) translateY(10px) rotate(-1deg); 
+    }
+    75% { 
+        opacity: 0.85; 
+        transform: translateX(10px) translateY(-20px) rotate(0.5deg); 
+    }
+}
+
+/* Responsive Design con identidad preservada */
+@media (max-width: 768px) {
+    .header {
+        padding: 0.8rem 0;
+    }
+    
+    .logo {
+        max-width: 100px;
+        margin-left: 1.5rem;
+    }
+    
+    .header-right {
+        margin-right: 1.5rem;
+        gap: 1rem;
+    }
+
+    .floor-navigation {
+        gap: 0.5rem;
+    }
+
+    .floor-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .back-button {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    .main-content {
+        padding: 100px 1.5rem 1.5rem;
+    }
+    
+    .floor-title {
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .floor-description {
+        font-size: 1.1rem;
+    }
+    
+    .map-container {
+        padding: 2rem;
+        border-radius: 25px;
+        border-width: 2px;
+    }
+    
+    .info-panel {
+        padding: 2rem;
+        max-width: 400px;
+    }
+
+    #routeInstructions {
+        top: 110px;
+        right: 15px;
+        left: 15px;
+        max-width: none;
+        width: auto;
+        padding: 1.2rem;
+    }
+
+    .floor-change-notification {
+        padding: 2.5rem;
+        max-width: 500px;
+    }
+
+    .notification-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .notification-btn {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        max-width: 80px;
+        margin-left: 1rem;
+    }
+    
+    .header-right {
+        margin-right: 1rem;
+        gap: 0.8rem;
+    }
+    
+    .floor-title {
+        font-size: 2rem;
+        letter-spacing: 0.5px;
+    }
+    
+    .map-container {
+        padding: 1.5rem;
+        margin: 0 1rem;
+        border-radius: 20px;
+    }
+    
+    .info-panel {
+        padding: 1.8rem;
+        max-width: 350px;
+    }
+
+    #routeInstructions {
+        top: 100px;
+        padding: 1rem;
+    }
+
+    .floor-change-notification {
+        padding: 2rem;
+        max-width: 450px;
+    }
+
+    .floor-change-notification h3 {
+        font-size: 1.7rem;
+    }
+
+    .floor-change-notification p {
+        font-size: 1.1rem;
+    }
+
+    .kiosco-content {
+        padding: 2rem;
+        border-radius: 25px;
+    }
+
+    .floor-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.75rem;
+    }
+
+    .back-button {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Animaciones mejoradas con identidad institucional */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.main-content > * {
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.header {
+    animation: fadeInDown 1s ease-out forwards;
+}
+
+/* Animación de notificación mejorada */
+@keyframes notificationBounce {
+    0% { 
+        transform: translate(-50%, -50%) scale(0) rotate(-8deg); 
+        opacity: 0; 
+    }
+    50% { 
+        transform: translate(-50%, -50%) scale(1.1) rotate(4deg); 
+        opacity: 0.9; 
+    }
+    100% { 
+        transform: translate(-50%, -50%) scale(1) rotate(0deg); 
+        opacity: 1; 
+    }
+}
+
+.floor-change-notification.bounce {
+    animation: notificationBounce 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Animaciones específicas para elementos del kiosco */
+@keyframes kioscoIntro {
+    0% { 
+        transform: scale(0) rotate(-180deg); 
+        opacity: 0; 
+    }
+    50% { 
+        transform: scale(1.3) rotate(-90deg); 
+        opacity: 0.8; 
+    }
+    100% { 
+        transform: scale(1) rotate(0deg); 
+        opacity: 1; 
+    }
+}
+
+@keyframes bounceIn {
+    0% { 
+        transform: translateX(-50%) scale(0.3) translateY(60px); 
+        opacity: 0; 
+    }
+    50% { 
+        transform: translateX(-50%) scale(1.1) translateY(-15px); 
+        opacity: 0.8; 
+    }
+    70% { 
+        transform: translateX(-50%) scale(0.9) translateY(8px); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: translateX(-50%) scale(1) translateY(0); 
+        opacity: 1; 
+    }
+}
+
+@keyframes bounceOut {
+    0% { 
+        transform: translateX(-50%) scale(1) translateY(0); 
+        opacity: 1; 
+    }
+    100% { 
+        transform: translateX(-50%) scale(0.3) translateY(60px); 
+        opacity: 0; 
+    }
+}
+
+/* Animación del logo institucional */
+@keyframes logoSpin {
+    0% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.15); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+/* Efectos hover mejorados para oficinas */
+.office-room {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.office-room:hover {
+    filter: brightness(1.3) drop-shadow(0 0 20px rgba(255,255,255,0.9)) !important;
+    transform: scale(1.02);
+}
+
+/* Estilos de accesibilidad */
+.office-room:focus {
+    outline: 3px solid var(--color-rosa-institucional);
+    outline-offset: 2px;
+}
+
+/* Estados de botones mejorados */
+button:focus,
+.floor-btn:focus,
+.destination-btn:focus {
+    outline: 2px solid var(--color-rosa-institucional);
+    outline-offset: 2px;
+}
+
+/* Modo de alto contraste (opcional) */
+@media (prefers-contrast: high) {
+    :root {
+        --color-gris-principal: #000000;
+        --color-rosa-institucional: #8b0039;
+        --color-azul-claro: #005577;
+        --color-verde-azulado: #004455;
+        --color-morado-claro: #440088;
+        --color-morado-oscuro: #220044;
+    }
+}
+
+/* Modo de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .route-marker {
+        animation: none;
+    }
+    
+    .navigation-route {
+        animation: none;
+    }
+}
+
+/* Impresión */
+@media print {
+    body::before {
+        display: none;
+    }
+    
+    .header {
+        position: static;
+        background: white;
+        color: black;
+    }
+    
+    .map-container {
+        background: white;
+        border: 2px solid black;
+    }
+    
+    .kiosco-modal,
+    .overlay,
+    .info-panel,
+    .floor-change-notification,
+    #routeInstructions {
+        display: none !important;
+    }
+}

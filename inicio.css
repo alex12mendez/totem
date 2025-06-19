@@ -1,0 +1,475 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: 
+        linear-gradient(135deg, rgba(77, 67, 131, 0.85) 0%, rgba(103, 103, 165, 0.8) 25%, rgba(86, 133, 141, 0.75) 50%, rgba(121, 176, 204, 0.8) 75%, rgba(182, 79, 128, 0.85) 100%),
+        url('imagenes/mexico.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* Header */
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.logo-container {
+    width: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+    backdrop-filter: blur(20px);
+    padding: 1.5rem 1rem;
+    box-shadow: 
+        0 4px 20px rgba(0,0,0,0.1),
+        0 1px 0 rgba(255,255,255,0.8);
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    margin-bottom: 2rem;
+    animation: fadeInDown 1s ease-out;
+}
+
+.logo {
+    max-width: 140px;
+    height: auto;
+    filter: none;
+    transition: all 0.3s ease;
+    background: none;
+    backdrop-filter: none;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.logo:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+}
+
+.title-container {
+    animation: fadeInUp 1s ease-out 0.3s both;
+    padding: 0 1rem;
+}
+
+.main-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 8px rgba(77, 67, 131, 0.8);
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    font-size: 3.2rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, #79b0cc, #ffffff, #b64f80, #6767a5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.8rem;
+    text-shadow: 
+        2px 2px 4px rgba(0,0,0,0.6),
+        0 0 20px rgba(255,255,255,0.4);
+    letter-spacing: -0.03em;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+}
+
+.period {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    font-style: italic;
+    text-shadow: 1px 1px 4px rgba(77, 67, 131, 0.6);
+}
+
+/* Contenido principal */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.welcome-section {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeIn 1s ease-out 0.6s both;
+}
+
+.welcome-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: #ffffff;
+    margin-bottom: 0.8rem;
+    text-shadow: 2px 2px 6px rgba(77, 67, 131, 0.7);
+}
+
+.welcome-text {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.95);
+    font-weight: 300;
+    text-shadow: 1px 1px 4px rgba(77, 67, 131, 0.6);
+}
+
+/* Botones de navegación */
+.navigation-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.level-button {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    animation: slideInUp 0.8s ease-out calc(var(--delay, 0) * 0.2s) both;
+}
+
+.level-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transition: left 0.5s;
+}
+
+.level-button:hover::before {
+    left: 100%;
+}
+
+.level-button:hover {
+    transform: translateY(-5px) scale(1.02);
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.4);
+    box-shadow: 0 20px 40px rgba(77, 67, 131, 0.3);
+}
+
+.level-button:active {
+    transform: translateY(-2px) scale(0.98);
+}
+
+.button-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.level-icon {
+    font-size: 2.5rem;
+    filter: grayscale(0.2);
+    transition: all 0.3s ease;
+}
+
+.level-button:hover .level-icon {
+    filter: grayscale(0);
+    transform: scale(1.1);
+}
+
+.level-name {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 0.2rem;
+    text-shadow: 1px 1px 3px rgba(77, 67, 131, 0.6);
+}
+
+.level-description {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+}
+
+.button-arrow {
+    font-size: 1.5rem;
+    color: rgba(255,255,255,0.7);
+    transition: all 0.3s ease;
+}
+
+.level-button:hover .button-arrow {
+    color: #ffffff;
+    transform: translateX(5px);
+}
+
+/* Colores específicos por nivel con la nueva paleta */
+.sotano {
+    --delay: 1;
+    border-left: 4px solid #b64f80;
+}
+
+.sotano:hover {
+    border-left-color: #b64f80;
+    box-shadow: 0 20px 40px rgba(182, 79, 128, 0.3);
+}
+
+.planta-baja {
+    --delay: 2;
+    border-left: 4px solid #79b0cc;
+}
+
+.planta-baja:hover {
+    border-left-color: #79b0cc;
+    box-shadow: 0 20px 40px rgba(121, 176, 204, 0.3);
+}
+
+.primer-piso {
+    --delay: 3;
+    border-left: 4px solid #56858d;
+}
+
+.primer-piso:hover {
+    border-left-color: #56858d;
+    box-shadow: 0 20px 40px rgba(86, 133, 141, 0.3);
+}
+
+/* Footer */
+.footer {
+    padding: 2rem 1rem 1rem;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #b64f80, #79b0cc, #56858d, #6767a5);
+    opacity: 0.8;
+}
+
+.footer-text {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+    margin-top: 1rem;
+    text-shadow: 1px 1px 3px rgba(77, 67, 131, 0.6);
+}
+
+/* Animaciones */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Overlay sutil para mejorar legibilidad */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(103, 103, 165, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(182, 79, 128, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(121, 176, 204, 0.2) 0%, transparent 50%);
+    animation: backgroundMove 20s ease-in-out infinite;
+    z-index: 1;
+}
+
+@keyframes backgroundMove {
+    0%, 100% { 
+        opacity: 1; 
+        transform: translateX(0px) translateY(0px); 
+    }
+    33% { 
+        opacity: 0.7; 
+        transform: translateX(-20px) translateY(-10px); 
+    }
+    66% { 
+        opacity: 0.9; 
+        transform: translateX(20px) translateY(10px); 
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .logo-container {
+        padding: 1.2rem 1rem;
+    }
+    
+    .logo {
+        max-width: 120px;
+    }
+    
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .subtitle {
+        font-size: 2.6rem;
+        font-weight: 800;
+    }
+    
+    .welcome-title {
+        font-size: 1.5rem;
+    }
+    
+    .level-button {
+        padding: 1.2rem;
+    }
+    
+    .level-name {
+        font-size: 1.2rem;
+    }
+    
+    .level-icon {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-container {
+        padding: 1rem;
+    }
+    
+    .logo {
+        max-width: 100px;
+    }
+    
+    .header {
+        padding: 0;
+    }
+    
+    .main-title {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle {
+        font-size: 2.2rem;
+        font-weight: 800;
+    }
+    
+    .period {
+        font-size: 1rem;
+    }
+    
+    .welcome-title {
+        font-size: 1.3rem;
+    }
+    
+    .welcome-text {
+        font-size: 1rem;
+    }
+    
+    .navigation-buttons {
+        gap: 1.2rem;
+    }
+    
+    .level-button {
+        padding: 1rem;
+        border-radius: 15px;
+    }
+    
+    .level-name {
+        font-size: 1.1rem;
+    }
+    
+    .level-description {
+        font-size: 0.8rem;
+    }
+    
+    .level-icon {
+        font-size: 1.8rem;
+    }
+}
+
+/* Pantallas muy grandes */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .subtitle {
+        font-size: 3.8rem;
+        font-weight: 800;
+    }
+    
+    .navigation-buttons {
+        max-width: 600px;
+    }
+}

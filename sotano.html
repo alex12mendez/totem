@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sótano - H. Ayuntamiento de Atizapán de Zaragoza</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset y configuración base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #4834d4 0%, #686de0 25%, #30336b 50%, #130f40 75%, #2c2c54 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Header con barra blanca */
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100vw;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.9) 100%);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 0;
+            box-shadow: 
+                0 4px 20px rgba(0,0,0,0.1),
+                0 1px 0 rgba(255,255,255,0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            max-width: 100px;
+            height: auto;
+            margin-left: 2rem;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-right: 2rem;
+        }
+
+        .floor-navigation {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .floor-btn {
+            background: rgba(255,255,255,0.3);
+            color: #333;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .floor-btn:hover {
+            background: rgba(78, 205, 196, 0.7);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .floor-btn.active {
+            background: rgba(78, 205, 196, 0.9);
+            color: white;
+            border-color: rgba(78, 205, 196, 0.9);
+        }
+
+        .back-button {
+            background: rgba(78, 205, 196, 0.9);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .back-button:hover {
+            background: rgba(78, 205, 196, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 100px 2rem 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .floor-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: #ffffff;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: none;
+        }
+
+        .floor-description {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.9);
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        /* Contenedor del mapa */
+        .map-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 
+                0 20px 60px rgba(0,0,0,0.2),
+                0 8px 32px rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            max-width: 95vw;
+            max-height: 80vh;
+            overflow: auto;
+            position: relative;
+        }
+
+        /* Estilos del SVG */
+        .floor-map {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 15px;
+        }
+
+        /* Estilos interactivos para las oficinas */
+        .office-room {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .office-room:hover {
+            filter: brightness(1.3) drop-shadow(0 0 10px rgba(255,255,255,0.8));
+            transform: scale(1.02);
+        }
+
+        /* Estilos para rutas animadas */
+        .navigation-route {
+            stroke: #4ECDC4;
+            stroke-width: 4;
+            fill: none;
+            stroke-dasharray: 10 5;
+            animation: routeAnimation 2s linear infinite;
+            filter: drop-shadow(0 0 5px rgba(78, 205, 196, 0.6));
+        }
+
+        @keyframes routeAnimation {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: 15; }
+        }
+
+        .route-marker {
+            fill: #4ECDC4;
+            animation: markerPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes markerPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.2); }
+        }
+
+        .route-start {
+            fill: #FFD700;
+        }
+
+        .route-end {
+            fill: #FF6B6B;
+        }
+
+        /* Panel de información */
+        .info-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(25px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.5);
+            z-index: 200;
+            max-width: 400px;
+            width: 90vw;
+            color: #333;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .info-panel.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+
+        .info-panel h3 {
+            color: #4834d4;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .info-panel p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .close-panel {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,107,107,0.9);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .close-panel:hover {
+            background: rgba(255,107,107,1);
+            transform: rotate(90deg);
+        }
+
+        /* Panel de instrucciones de ruta */
+        #routeInstructions {
+            position: fixed;
+            top: 120px;
+            right: 20px;
+            background: rgba(78, 205, 196, 0.95);
+            color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            max-width: 280px;
+            z-index: 250;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            animation: slideInRight 0.5s ease-out;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        #routeInstructions h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        #routeInstructions p {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        #routeInstructions button {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 0.3rem 0;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        #routeInstructions button:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+
+        @keyframes slideInRight {
+            0% { 
+                transform: translateX(100%); 
+                opacity: 0; 
+            }
+            100% { 
+                transform: translateX(0); 
+                opacity: 1; 
+            }
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 150;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Controles del mapa */
+        .map-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .control-btn {
+            background: rgba(78, 205, 196, 0.9);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        .control-btn:hover {
+            background: rgba(78, 205, 196, 1);
+            transform: scale(1.1);
+        }
+
+        /* Efectos de fondo animado */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 107, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(78, 205, 196, 0.3) 0%, transparent 50%);
+            animation: backgroundMove 20s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { 
+                opacity: 1; 
+                transform: translateX(0px) translateY(0px); 
+            }
+            33% { 
+                opacity: 0.8; 
+                transform: translateX(-20px) translateY(-10px); 
+            }
+            66% { 
+                opacity: 0.9; 
+                transform: translateX(20px) translateY(10px); 
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.6rem 0;
+            }
+            
+            .logo {
+                max-width: 80px;
+                margin-left: 1rem;
+            }
+            
+            .header-right {
+                margin-right: 1rem;
+                gap: 0.5rem;
+            }
+
+            .floor-navigation {
+                gap: 0.3rem;
+            }
+
+            .floor-btn {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .back-button {
+                padding: 0.4rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .main-content {
+                padding: 80px 1rem 1rem;
+            }
+            
+            .floor-title {
+                font-size: 2rem;
+            }
+            
+            .floor-description {
+                font-size: 1rem;
+            }
+            
+            .map-container {
+                padding: 1rem;
+                border-radius: 15px;
+            }
+            
+            .info-panel {
+                padding: 1.5rem;
+                max-width: 350px;
+            }
+
+            #routeInstructions {
+                top: 90px;
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                max-width: 70px;
+            }
+            
+            .floor-title {
+                font-size: 1.8rem;
+            }
+            
+            .map-container {
+                padding: 0.8rem;
+                margin: 0 0.5rem;
+            }
+            
+            .info-panel {
+                padding: 1rem;
+                max-width: 320px;
+            }
+
+            #routeInstructions {
+                top: 80px;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-content > * {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .header {
+            animation: fadeInDown 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header con logo, navegación de pisos y botón de regreso -->
+        <header class="header">
+            <img src="imagenes/1_MARCA_2025 (1).png" alt="Logo H. Ayuntamiento de Atizapán de Zaragoza" class="logo">
+            
+            <div class="header-right">
+                <!-- Navegación entre pisos -->
+                <div class="floor-navigation">
+                    <span class="floor-btn active">🔽 Sótano</span>
+                    <a href="planta-baja.html" class="floor-btn">📍 Planta Baja</a>
+                    <a href="primer-piso.html" class="floor-btn">🔼 1er Piso</a>
+                </div>
+                
+                <button class="back-button" onclick="goBack()">← Regresar</button>
+            </div>
+        </header>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <h1 class="floor-title">SÓTANO</h1>
+            <p class="floor-description">
+                Explora las diferentes oficinas y departamentos ubicados en el sótano del H. Ayuntamiento. 
+                Haz clic en cualquier área para obtener más información o navegar.
+            </p>
+
+            <!-- Contenedor del mapa -->
+            <div class="map-container">
+                <div class="map-controls">
+                    <button class="control-btn" onclick="zoomIn()" title="Acercar">+</button>
+                    <button class="control-btn" onclick="zoomOut()" title="Alejar">-</button>
+                    <button class="control-btn" onclick="resetZoom()" title="Restablecer">⌂</button>
+                </div>
+
+                <svg class="floor-map" id="floorMap" width="900" height="800" viewBox="0 0 900 800" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Gradientes institucionales -->
+                        <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4c43b3"/>
+                            <stop offset="100%" style="stop-color:#6b5ce3"/>
+                        </linearGradient>
+                        <linearGradient id="secondaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#56858d"/>
+                            <stop offset="100%" style="stop-color:#76a5ad"/>
+                        </linearGradient>
+                        <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#b64f80"/>
+                            <stop offset="100%" style="stop-color:#d66fa0"/>
+                        </linearGradient>
+                        
+                        <!-- Filtros y efectos -->
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge> 
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        
+                        <filter id="shadow">
+                            <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.3"/>
+                        </filter>
+                    </defs>
+                    
+                    <!-- Fondo del edificio con gradiente -->
+                    <rect x="50" y="50" width="800" height="700" fill="url(#primaryGradient)" opacity="0.1" stroke="#333" stroke-width="3" filter="url(#shadow)"/>
+                    
+                    <!-- Patio central -->
+                    <rect x="280" y="280" width="340" height="240" fill="#ffcccb" stroke="#333" stroke-width="2" filter="url(#shadow)" rx="10"/>
+                    <text x="450" y="410" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#666">PATIO</text>
+                    <text x="450" y="430" text-anchor="middle" font-family="Arial" font-size="14" fill="#999">(Vacío)</text>
+                    
+                    <!-- Escaleras con efecto - PUNTO DE INICIO -->
+                    <rect id="stairs" x="580" y="530" width="40" height="80" fill="#d4b08a" stroke="#333" stroke-width="2" filter="url(#shadow)" rx="5" style="cursor: pointer;" onclick="showStairsInfo()"/>
+                    <g stroke="#333" stroke-width="1">
+                        <line x1="585" y1="535" x2="615" y2="535"/>
+                        <line x1="585" y1="545" x2="615" y2="545"/>
+                        <line x1="585" y1="555" x2="615" y2="555"/>
+                        <line x1="585" y1="565" x2="615" y2="565"/>
+                        <line x1="585" y1="575" x2="615" y2="575"/>
+                        <line x1="585" y1="585" x2="615" y2="585"/>
+                        <line x1="585" y1="595" x2="615" y2="595"/>
+                        <line x1="585" y1="605" x2="615" y2="605"/>
+                    </g>
+                    <text x="600" y="625" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="#333">escaleras</text>
+                    
+                    <!-- OFICINAS CON GRADIENTES Y EFECTOS -->
+                    
+                    <!-- Patrimonio Municipal -->
+                    <rect id="office-s001" x="70" y="170" width="140" height="140" fill="url(#primaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s001')" filter="url(#glow)" rx="8"/>
+                    <text x="140" y="230" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">PATRIMONIO</text>
+                    <text x="140" y="250" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">MUNICIPAL</text>
+                    
+                    <!-- Departamento de Ingresos -->
+                    <rect id="office-s002" x="230" y="170" width="130" height="90" fill="url(#primaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s002')" filter="url(#glow)" rx="8"/>
+                    <text x="295" y="195" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="white">DEPARTAMENTO DE</text>
+                    <text x="295" y="210" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="white">INGRESOS Y</text>
+                    <text x="295" y="225" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="white">EJECUCIÓN FISCAL</text>
+                    <text x="295" y="240" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="white">CARTILLAS</text>
+                    
+                    <!-- UIPPE -->
+                    <rect id="office-s003" x="380" y="170" width="60" height="90" fill="url(#accentGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s003')" filter="url(#glow)" rx="8"/>
+                    <text x="410" y="215" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="white">UIPPE</text>
+                    
+                    <!-- Normatividad y Verificación -->
+                    <rect id="office-s013" x="460" y="170" width="90" height="90" fill="url(#secondaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s013')" filter="url(#glow)" rx="8"/>
+                    <text x="505" y="200" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="white">NORMATIVIDAD</text>
+                    <text x="505" y="215" text-anchor="middle" font-family="Arial" font-size="9" font-weight="bold" fill="white">Y VERIFICACIÓN</text>
+                    
+                    <!-- Gobierno -->
+                    <rect id="office-s004" x="570" y="170" width="90" height="90" fill="url(#primaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s004')" filter="url(#glow)" rx="8"/>
+                    <text x="615" y="215" text-anchor="middle" font-family="Arial" font-size="11" font-weight="bold" fill="white">GOBIERNO</text>
+                    
+                    <!-- Desarrollo Social -->
+                    <rect id="office-s005" x="680" y="170" width="150" height="90" fill="url(#secondaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s005')" filter="url(#glow)" rx="8"/>
+                    <text x="755" y="200" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">DESARROLLO</text>
+                    <text x="755" y="215" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">SOCIAL</text>
+                    
+                    <!-- Administración -->
+                    <rect id="office-s006" x="70" y="330" width="140" height="250" fill="url(#primaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s006')" filter="url(#glow)" rx="8"/>
+                    <text x="140" y="445" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">ADMINISTRACIÓN</text>
+                    
+                    <!-- Desarrollo Económico -->
+                    <rect id="office-s007" x="680" y="280" width="150" height="190" fill="url(#secondaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s007')" filter="url(#glow)" rx="8"/>
+                    <text x="755" y="365" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">DESARROLLO</text>
+                    <text x="755" y="380" text-anchor="middle" font-family="Arial" font-size="10" font-weight="bold" fill="white">ECONÓMICO</text>
+                    
+                    <!-- Ejecución Fiscal -->
+                    <rect id="office-s011" x="680" y="490" width="70" height="80" fill="url(#primaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s011')" filter="url(#glow)" rx="8"/>
+                    <text x="715" y="520" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">ejecución</text>
+                    <text x="715" y="535" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">fiscal</text>
+                    
+                    <!-- Baño Mujer -->
+                    <rect x="760" y="490" width="70" height="80" fill="url(#accentGradient)" stroke="#333" stroke-width="2" filter="url(#glow)" rx="8"/>
+                    <text x="795" y="520" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">BAÑO</text>
+                    <text x="795" y="535" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">MUJER</text>
+                    
+                    <!-- Servicios Públicos -->
+                    <rect id="office-s008" x="70" y="600" width="280" height="80" fill="url(#accentGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s008')" filter="url(#glow)" rx="8"/>
+                    <text x="210" y="645" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">SERVICIOS PÚBLICOS</text>
+                    
+                    <!-- Panteones -->
+                    <rect id="office-s009" x="370" y="600" width="140" height="80" fill="url(#accentGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s009')" filter="url(#glow)" rx="8"/>
+                    <text x="440" y="645" text-anchor="middle" font-family="Arial" font-size="12" font-weight="bold" fill="white">PANTEONES</text>
+                    
+                    <!-- Almacén -->
+                    <rect id="office-s012" x="670" y="600" width="45" height="80" fill="url(#accentGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s012')" filter="url(#glow)" rx="8"/>
+                    <text x="692" y="640" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">ALMACÉN</text>
+                    
+                    <!-- Dirección de Educación -->
+                    <rect id="office-s010" x="725" y="600" width="65" height="80" fill="url(#secondaryGradient)" stroke="#333" stroke-width="2" class="office-room" onclick="showNavigationToOffice('s010')" filter="url(#glow)" rx="8"/>
+                    <text x="757" y="630" text-anchor="middle" font-family="Arial" font-size="7" font-weight="bold" fill="white">DIRECCIÓN DE</text>
+                    <text x="757" y="645" text-anchor="middle" font-family="Arial" font-size="7" font-weight="bold" fill="white">EDUCACIÓN</text>
+                    
+                    <!-- Baño H -->
+                    <rect x="800" y="600" width="30" height="80" fill="url(#accentGradient)" stroke="#333" stroke-width="2" filter="url(#glow)" rx="8"/>
+                    <text x="815" y="640" text-anchor="middle" font-family="Arial" font-size="8" font-weight="bold" fill="white">BAÑO H</text>
+                </svg>
+            </div>
+        </main>
+    </div>
+
+    <!-- Overlay para modal -->
+    <div class="overlay" id="overlay" onclick="closeInfoPanel()"></div>
+
+    <!-- Panel de información -->
+    <div class="info-panel" id="infoPanel">
+        <button class="close-panel" onclick="closeInfoPanel()">×</button>
+        <h3 id="officeTitle">Oficina</h3>
+        <p id="officeDescription">Descripción de la oficina</p>
+        <p><strong>Horarios:</strong> <span id="officeHours">Lunes a Viernes 9:00 - 17:00</span></p>
+        <p><strong>Servicios:</strong> <span id="officeServices">Información general</span></p>
+    </div>
+
+    <script>
+        // Datos de las oficinas
+        const officesData = {
+            's001': {
+                title: 'Patrimonio Municipal',
+                description: 'Departamento encargado de la administración y control del patrimonio municipal, incluyendo inventarios y bienes inmuebles.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Inventarios, Control patrimonial, Bienes inmuebles'
+            },
+            's002': {
+                title: 'Departamento de Ingresos y Ejecución Fiscal',
+                description: 'Área responsable de la recaudación de ingresos municipales y el seguimiento de procesos de ejecución fiscal.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Recaudación, Cartillas, Ejecución fiscal'
+            },
+            's003': {
+                title: 'UIPPE',
+                description: 'Unidad de Información, Planeación, Programación y Evaluación. Encargada del análisis y evaluación de programas municipales.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Planeación, Programación, Evaluación, Información'
+            },
+            's004': {
+                title: 'Gobierno',
+                description: 'Oficina de coordinación gubernamental y asuntos administrativos del gobierno municipal.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Coordinación gubernamental, Asuntos administrativos'
+            },
+            's005': {
+                title: 'Desarrollo Social',
+                description: 'Departamento dedicado a programas sociales y desarrollo comunitario para mejorar la calidad de vida de los ciudadanos.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Programas sociales, Desarrollo comunitario, Asistencia social'
+            },
+            's006': {
+                title: 'Administración',
+                description: 'Área central de administración municipal, recursos humanos y gestión administrativa general.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Recursos humanos, Gestión administrativa, Nóminas'
+            },
+            's007': {
+                title: 'Desarrollo Económico',
+                description: 'Departamento enfocado en el fomento económico local, apoyo a empresas y desarrollo comercial.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Fomento económico, Apoyo empresarial, Licencias comerciales'
+            },
+            's008': {
+                title: 'Servicios Públicos',
+                description: 'Coordinación de servicios públicos municipales como limpia, alumbrado, parques y jardines.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Limpia, Alumbrado público, Parques y jardines'
+            },
+            's009': {
+                title: 'Panteones',
+                description: 'Administración y control de panteones municipales, servicios funerarios y gestión de espacios cementeriales.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Servicios funerarios, Administración de panteones, Permisos'
+            },
+            's010': {
+                title: 'Dirección de Educación',
+                description: 'Departamento encargado de la coordinación educativa municipal y programas de apoyo educativo.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Coordinación educativa, Programas de apoyo, Becas'
+            },
+            's011': {
+                title: 'Ejecución Fiscal',
+                description: 'Oficina especializada en procesos de cobro coactivo y ejecución de adeudos fiscales.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Cobro coactivo, Procesos fiscales, Convenios de pago'
+            },
+            's012': {
+                title: 'Almacén',
+                description: 'Control y distribución de materiales, suministros y equipos para las diferentes áreas municipales.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Control de inventarios, Distribución de materiales'
+            },
+            's013': {
+                title: 'Normatividad y Verificación',
+                description: 'Departamento encargado del cumplimiento normativo y verificación de regulaciones municipales.',
+                hours: 'Lunes a Viernes 9:00 - 17:00',
+                services: 'Verificación normativa, Inspecciones, Cumplimiento regulatorio'
+            }
+        };
+
+        let currentZoom = 1;
+        const maxZoom = 2;
+        const minZoom = 0.5;
+
+        // Función principal para mostrar navegación a una oficina
+        function showNavigationToOffice(officeId) {
+            console.log('🎯 Navegando a oficina:', officeId);
+            
+            // Limpiar rutas anteriores
+            clearAllRoutes();
+            
+            // Mostrar la ruta desde las escaleras hasta la oficina
+            drawRouteFromStairs(officeId);
+            
+            // Mostrar instrucciones de navegación (esto incluye la info básica)
+            showNavigationInstructions(officeId);
+            
+            // Feedback háptico
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 100, 50]);
+            }
+        }
+
+        // Función para dibujar ruta desde las escaleras hasta la oficina
+        function drawRouteFromStairs(officeId) {
+            console.log('🗺️ Dibujando ruta a:', officeId);
+            
+            const svg = document.getElementById('floorMap');
+            const routeGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            routeGroup.setAttribute('id', 'navigationRoute');
+            
+            // Punto de inicio (escaleras)
+            const startMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            startMarker.setAttribute('cx', '600');
+            startMarker.setAttribute('cy', '570');
+            startMarker.setAttribute('r', '8');
+            startMarker.setAttribute('class', 'route-marker route-start');
+            routeGroup.appendChild(startMarker);
+            
+            // Obtener las coordenadas de la ruta
+            const routes = getSotanoRouteCoordinates(officeId);
+            console.log('📍 Rutas generadas:', routes);
+            
+            routes.forEach((route, index) => {
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', route);
+                path.setAttribute('class', 'navigation-route');
+                console.log(`Ruta ${index}:`, route);
+                routeGroup.appendChild(path);
+            });
+            
+            // Punto de destino
+            const targetOffice = document.getElementById('office-' + officeId);
+            if (targetOffice) {
+                const rect = targetOffice.getBBox();
+                const endMarker = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                endMarker.setAttribute('cx', rect.x + rect.width / 2);
+                endMarker.setAttribute('cy', rect.y + rect.height / 2);
+                endMarker.setAttribute('r', '8');
+                endMarker.setAttribute('class', 'route-marker route-end');
+                routeGroup.appendChild(endMarker);
+                console.log('✅ Marcador de destino agregado');
+            } else {
+                console.error('❌ No se encontró la oficina:', officeId);
+            }
+            
+            svg.appendChild(routeGroup);
+            console.log('✅ Ruta agregada al SVG');
+        }
+
+        // Coordenadas específicas para rutas en el sótano
+        function getSotanoRouteCoordinates(officeId) {
+            // Definir las coordenadas del patio (área prohibida)
+            const patioArea = {
+                x: 280,
+                y: 280,
+                width: 340,
+                height: 240
+            };
+            
+            // Punto de inicio (escaleras)
+            const start = { x: 600, y: 570 };
+            
+            // Puntos de destino para cada oficina en el sótano
+            const destinations = {
+                's001': { x: 140, y: 240 }, // Patrimonio Municipal
+                's002': { x: 295, y: 215 }, // Ingresos y Ejecución Fiscal
+                's003': { x: 410, y: 215 }, // UIPPE
+                's004': { x: 615, y: 215 }, // Gobierno
+                's005': { x: 755, y: 215 }, // Desarrollo Social
+                's006': { x: 140, y: 455 }, // Administración
+                's007': { x: 755, y: 375 }, // Desarrollo Económico
+                's008': { x: 210, y: 640 }, // Servicios Públicos
+                's009': { x: 440, y: 640 }, // Panteones
+                's010': { x: 757, y: 640 }, // Dirección de Educación
+                's011': { x: 715, y: 530 }, // Ejecución Fiscal
+                's012': { x: 692, y: 640 }, // Almacén
+                's013': { x: 505, y: 215 }  // Normatividad y Verificación
+            };
+            
+            const destination = destinations[officeId];
+            if (!destination) return ['M 600 570 L 600 550'];
+            
+            // Generar ruta evitando el patio
+            return generateSafeSotanoRoute(start, destination, patioArea);
+        }
+
+        // Generar ruta segura evitando obstáculos en el sótano
+        function generateSafeSotanoRoute(start, end, obstacle) {
+            // Si el destino no intersecta con el patio, ir directo
+            if (!lineIntersectsRect(start, end, obstacle)) {
+                return [`M ${start.x} ${start.y} L ${end.x} ${end.y}`];
+            }
+            
+            // Determinar qué lado del patio usar para rodear
+            const routePoints = calculateSotanoAvoidanceRoute(start, end, obstacle);
+            
+            // Convertir puntos a path SVG
+            let pathString = `M ${routePoints[0].x} ${routePoints[0].y}`;
+            for (let i = 1; i < routePoints.length; i++) {
+                pathString += ` L ${routePoints[i].x} ${routePoints[i].y}`;
+            }
+            
+            return [pathString];
+        }
+
+        function calculateSotanoAvoidanceRoute(start, end, obstacle) {
+            const points = [start];
+            
+            // Margen de seguridad alrededor del patio
+            const margin = 20;
+            const safeObstacle = {
+                x: obstacle.x - margin,
+                y: obstacle.y - margin,
+                width: obstacle.width + (margin * 2),
+                height: obstacle.height + (margin * 2)
+            };
+            
+            // Determinar la mejor estrategia de rodeo
+            if (end.y < obstacle.y) {
+                // Destino está arriba del patio - rodear por arriba
+                points.push({ x: start.x, y: safeObstacle.y });
+                points.push({ x: end.x, y: safeObstacle.y });
+            } else if (end.y > obstacle.y + obstacle.height) {
+                // Destino está abajo del patio - rodear por abajo
+                points.push({ x: start.x, y: safeObstacle.y + safeObstacle.height });
+                points.push({ x: end.x, y: safeObstacle.y + safeObstacle.height });
+            } else if (end.x < obstacle.x) {
+                // Destino está a la izquierda del patio - rodear por la izquierda
+                points.push({ x: start.x, y: safeObstacle.y + safeObstacle.height });
+                points.push({ x: safeObstacle.x, y: safeObstacle.y + safeObstacle.height });
+                points.push({ x: safeObstacle.x, y: end.y });
+            } else if (end.x > obstacle.x + obstacle.width) {
+                // Destino está a la derecha del patio - rodear por la derecha
+                if (start.x > safeObstacle.x + safeObstacle.width) {
+                    // Ya estamos a la derecha, ir directo
+                    points.push({ x: end.x, y: start.y });
+                } else {
+                    // Rodear por la derecha
+                    points.push({ x: safeObstacle.x + safeObstacle.width, y: start.y });
+                    points.push({ x: safeObstacle.x + safeObstacle.width, y: end.y });
+                }
+            } else {
+                // El destino está dentro del área del patio (casos especiales)
+                // Usar la ruta más corta posible
+                if (Math.abs(start.x - end.x) < Math.abs(start.y - end.y)) {
+                    // Rodear horizontalmente
+                    if (end.x < start.x) {
+                        points.push({ x: safeObstacle.x, y: start.y });
+                        points.push({ x: safeObstacle.x, y: end.y });
+                    } else {
+                        points.push({ x: safeObstacle.x + safeObstacle.width, y: start.y });
+                        points.push({ x: safeObstacle.x + safeObstacle.width, y: end.y });
+                    }
+                } else {
+                    // Rodear verticalmente
+                    if (end.y < start.y) {
+                        points.push({ x: start.x, y: safeObstacle.y });
+                        points.push({ x: end.x, y: safeObstacle.y });
+                    } else {
+                        points.push({ x: start.x, y: safeObstacle.y + safeObstacle.height });
+                        points.push({ x: end.x, y: safeObstacle.y + safeObstacle.height });
+                    }
+                }
+            }
+            
+            points.push(end);
+            return points;
+        }
+
+        function lineIntersectsRect(point1, point2, rect) {
+            const x1 = point1.x, y1 = point1.y;
+            const x2 = point2.x, y2 = point2.y;
+            const rx = rect.x, ry = rect.y;
+            const rw = rect.width, rh = rect.height;
+            
+            return (
+                lineIntersectsLine(x1, y1, x2, y2, rx, ry, rx + rw, ry) ||
+                lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry, rx + rw, ry + rh) ||
+                lineIntersectsLine(x1, y1, x2, y2, rx + rw, ry + rh, rx, ry + rh) ||
+                lineIntersectsLine(x1, y1, x2, y2, rx, ry + rh, rx, ry) ||
+                (x1 >= rx && x1 <= rx + rw && y1 >= ry && y1 <= ry + rh) ||
+                (x2 >= rx && x2 <= rx + rw && y2 >= ry && y2 <= ry + rh)
+            );
+        }
+
+        function lineIntersectsLine(x1, y1, x2, y2, x3, y3, x4, y4) {
+            const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+            if (denom === 0) return false;
+            
+            const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
+            const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
+            
+            return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
+        }
+
+        // Mostrar instrucciones de navegación
+        function showNavigationInstructions(officeId) {
+            const office = officesData[officeId];
+            if (!office) return;
+
+            const instructions = document.createElement('div');
+            instructions.id = 'routeInstructions';
+            
+            instructions.innerHTML = `
+                <h4>🎯 ${office.title}</h4>
+                <p>📍 Desde las escaleras, sigue la línea azul</p>
+                <p>🚶‍♂️ Tiempo estimado: 2-3 minutos</p>
+                <p>📍 <strong>Ubicación:</strong> ${getSotanoSection(officeId)}</p>
+                <button onclick="clearAllRoutes()">
+                    Limpiar Ruta
+                </button>
+                <button onclick="showOfficeInfo('${officeId}')" style="background: rgba(72, 52, 212, 0.9);">
+                    📋 Información Completa
+                </button>
+            `;
+            
+            document.body.appendChild(instructions);
+        }
+
+        // Obtener la sección del sótano donde está ubicada la oficina
+        function getSotanoSection(officeId) {
+            const sections = {
+                's001': 'Lado izquierdo superior',
+                's002': 'Área central superior',
+                's003': 'Centro superior',
+                's004': 'Lado derecho superior',
+                's005': 'Extremo derecho superior',
+                's006': 'Lado izquierdo central',
+                's007': 'Lado derecho central',
+                's008': 'Parte inferior izquierda',
+                's009': 'Centro inferior',
+                's010': 'Extremo derecho inferior',
+                's011': 'Lado derecho medio',
+                's012': 'Parte inferior derecha',
+                's013': 'Centro superior derecho'
+            };
+            return sections[officeId] || 'Ubicación en el sótano';
+        }
+
+        // Función para mostrar información de las escaleras
+        function showStairsInfo() {
+            const instructions = document.createElement('div');
+            instructions.id = 'routeInstructions';
+            
+            instructions.innerHTML = `
+                <h4>🚶‍♂️ Punto de Llegada</h4>
+                <p>📍 Has llegado al sótano</p>
+                <p>🎯 Haz clic en cualquier oficina para ver la ruta</p>
+                <p>ℹ️ Las líneas azules te guiarán hasta tu destino</p>
+                <button onclick="clearAllRoutes()">
+                    Entendido
+                </button>
+            `;
+            
+            document.body.appendChild(instructions);
+        }
+
+        // Función para limpiar todas las rutas
+        function clearAllRoutes() {
+            const existingRoute = document.getElementById('navigationRoute');
+            if (existingRoute) {
+                existingRoute.remove();
+                console.log('🧹 Ruta anterior eliminada');
+            }
+            
+            const instructions = document.getElementById('routeInstructions');
+            if (instructions) {
+                instructions.remove();
+                console.log('🧹 Instrucciones anteriores eliminadas');
+            }
+        }
+
+        // Función para mostrar información de oficina
+        function showOfficeInfo(officeId) {
+            const office = officesData[officeId];
+            if (!office) return;
+
+            document.getElementById('officeTitle').textContent = office.title;
+            document.getElementById('officeDescription').textContent = office.description;
+            document.getElementById('officeHours').textContent = office.hours;
+            document.getElementById('officeServices').textContent = office.services;
+
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('infoPanel').classList.add('active');
+
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+
+        function closeInfoPanel() {
+            document.getElementById('overlay').classList.remove('active');
+            document.getElementById('infoPanel').classList.remove('active');
+        }
+
+        function goBack() {
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease-out';
+            
+            setTimeout(() => {
+                window.location.href = 'planta-baja.html';
+            }, 500);
+        }
+
+        // Funciones de zoom
+        function zoomIn() {
+            if (currentZoom < maxZoom) {
+                currentZoom += 0.2;
+                applyZoom();
+            }
+        }
+
+        function zoomOut() {
+            if (currentZoom > minZoom) {
+                currentZoom -= 0.2;
+                applyZoom();
+            }
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            applyZoom();
+        }
+
+        function applyZoom() {
+            const svg = document.getElementById('floorMap');
+            svg.style.transform = `scale(${currentZoom})`;
+            svg.style.transformOrigin = 'center center';
+            
+            if (navigator.vibrate) {
+                navigator.vibrate(5);
+            }
+        }
+
+        // Event listeners para navegación con teclado
+        document.addEventListener('keydown', function(event) {
+            switch(event.key) {
+                case 'Escape':
+                    closeInfoPanel();
+                    clearAllRoutes();
+                    break;
+                case '+':
+                case '=':
+                    event.preventDefault();
+                    zoomIn();
+                    break;
+                case '-':
+                    event.preventDefault();
+                    zoomOut();
+                    break;
+                case '0':
+                    event.preventDefault();
+                    resetZoom();
+                    break;
+                case 'Backspace':
+                    event.preventDefault();
+                    goBack();
+                    break;
+            }
+        });
+
+        // Manejo de gestos táctiles para dispositivos móviles
+        let initialDistance = 0;
+        let lastZoom = currentZoom;
+
+        function getDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        document.getElementById('floorMap').addEventListener('touchstart', function(event) {
+            if (event.touches.length === 2) {
+                event.preventDefault();
+                initialDistance = getDistance(event.touches);
+                lastZoom = currentZoom;
+            }
+        });
+
+        document.getElementById('floorMap').addEventListener('touchmove', function(event) {
+            if (event.touches.length === 2) {
+                event.preventDefault();
+                const currentDistance = getDistance(event.touches);
+                const scale = currentDistance / initialDistance;
+                const newZoom = lastZoom * scale;
+                
+                if (newZoom >= minZoom && newZoom <= maxZoom) {
+                    currentZoom = newZoom;
+                    applyZoom();
+                }
+            }
+        });
+
+        // Efectos de hover mejorados para las oficinas
+        document.querySelectorAll('.office-room').forEach(office => {
+            office.addEventListener('mouseenter', function() {
+                this.style.cursor = 'pointer';
+                this.style.filter = 'brightness(1.3) drop-shadow(0 0 15px rgba(255,255,255,0.9))';
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate(5);
+                }
+            });
+
+            office.addEventListener('mouseleave', function() {
+                this.style.filter = 'url(#glow)';
+            });
+        });
+
+        // Detectar si se viene desde la planta baja con un destino específico
+        function checkForDirectNavigation() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetOffice = urlParams.get('office');
+            
+            if (targetOffice) {
+                console.log('🎯 Navegación directa detectada a:', targetOffice);
+                // Esperar un momento para que la página cargue completamente
+                setTimeout(() => {
+                    showNavigationToOffice(targetOffice);
+                    // Mostrar notificación de que se continúa la navegación
+                    const notification = document.createElement('div');
+                    notification.style.cssText = `
+                        position: fixed;
+                        top: 80px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: rgba(255, 215, 0, 0.95);
+                        color: #333;
+                        padding: 1rem 2rem;
+                        border-radius: 15px;
+                        z-index: 1000;
+                        font-weight: 600;
+                        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+                        animation: slideInDown 0.5s ease-out;
+                    `;
+                    notification.innerHTML = `
+                        🗺️ <strong>Continuando navegación</strong><br>
+                        <small>Sigue la línea azul desde las escaleras</small>
+                    `;
+                    document.body.appendChild(notification);
+                    
+                    // Auto-remover después de 4 segundos
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.remove();
+                        }
+                    }, 4000);
+                }, 1000);
+            }
+        }
+
+        // Agregar animación para la notificación
+        const notificationStyle = document.createElement('style');
+        notificationStyle.textContent = `
+            @keyframes slideInDown {
+                0% { 
+                    transform: translateX(-50%) translateY(-100%); 
+                    opacity: 0; 
+                }
+                100% { 
+                    transform: translateX(-50%) translateY(0); 
+                    opacity: 1; 
+                }
+            }
+        `;
+        document.head.appendChild(notificationStyle);
+
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🏛️ Mapa del Sótano - H. Ayuntamiento de Atizapán de Zaragoza');
+            console.log('🗺️ Sistema de Navegación Local Activo');
+            console.log('📱 Controles disponibles:');
+            console.log('  • Clic en oficinas para navegación');
+            console.log('  • Clic en escaleras para orientación');
+            console.log('  • Botones +/- para zoom');
+            console.log('  • Tecla ESC para cerrar paneles');
+
+            // Verificar navegación directa desde otro piso
+            checkForDirectNavigation();
+
+            // Agregar animaciones de entrada escalonadas a las oficinas
+            const offices = document.querySelectorAll('.office-room');
+            offices.forEach((office, index) => {
+                office.style.opacity = '0';
+                office.style.transform = 'scale(0.8)';
+                office.style.transition = 'all 0.6s ease-out';
+                
+                setTimeout(() => {
+                    office.style.opacity = '1';
+                    office.style.transform = 'scale(1)';
+                }, 200 + (index * 100));
+            });
+
+            // Destacar las escaleras como punto de llegada
+            const stairs = document.getElementById('stairs');
+            if (stairs) {
+                stairs.style.stroke = '#FFD700';
+                stairs.style.strokeWidth = '3';
+                stairs.style.filter = 'drop-shadow(0 0 10px rgba(255, 215, 0, 0.6))';
+            }
+        });
+
+        // Feedback de accesibilidad
+        document.querySelectorAll('.office-room').forEach(office => {
+            office.setAttribute('tabindex', '0');
+            office.setAttribute('role', 'button');
+            office.setAttribute('aria-label', `Oficina - Presiona Enter para navegación`);
+            
+            office.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const officeId = this.id.replace('office-', '');
+                    showNavigationToOffice(officeId);
+                }
+            });
+        });
+
+        console.log('🎯 Sistema de navegación del sótano completamente inicializado');
+    </script>
+</body>
+</html>" y="600" width="45" height="80" fill="url(#accentG
